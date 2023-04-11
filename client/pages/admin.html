@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../resources/styles/admin.css">
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <!-- Tab links -->
+    <div class="tab">
+        <button class="tablinks" onclick="getAdmins(event, Admins)">Admins</button>
+        <button class="tablinks" onclick="getUsers(event, Users)">Users</button>
+        <button class="tablinks" onclick="getGasCars(event, GasCars)">Gas Cars</button>
+        <button class="tablinks" onclick="getElectricCars(event, ElectricCars)">Electric Cars</button>
+        <button class="tablinks" onclick="getPairs(event, Car_Pairs)">Car Pairs</button>
+    </div>
+
+    <!-- ADMIN TABLE -->
+    <div id="Admins" class="tabcontent">
+        <div class="admin-header-section">
+            <h1>Admin Table</h1>
+            <table class="table" id="admin-table">
+                <thead>
+                    <tr>
+                        <th>Admin ID</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Security Key</th>
+                    </tr>
+                </thead>
+            </table>
+            <form id="admin-form" onsubmit="createAdmin(event)">
+                <label>Email</label>
+                    <input id="admin-email-input" type="text" placeholder="Enter admin email here..." name="admin-email" />
+                <label>Password</label>
+                    <input id="admin-password-input" type="text" placeholder="Enter admin password here..." name="admin-password" />
+                <label>Security Key</label>
+                    <input id="security-key-input" type="text" placeholder="Enter security key here..." name="security-key" />
+                    <button class="btn btn-info submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- USERS TABLE -->
+    <div id="Users" class="tabcontent">
+        <div class="user-header-section">
+            <h1>User Table</h1>
+            <table class="table" id="user-table">
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+            </table>
+            <form id="user-form" onsubmit="createUser(event)">
+                <label>Email</label>
+                    <input id="user-email-input" type="text" placeholder="Enter user email here..." name="user-email" />
+                <label>Password</label>
+                    <input id="user-password-input" type="text" placeholder="Enter user password here..." name="user-password" />
+                    <button class="btn btn-info submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- GAS CARS TABLE -->
+    <div id="GasCars" class="tabcontent">
+        <div class="gas-car-header-section">
+            <h1>Gas Cars Table</h1>
+            <table class="table" id="gas-car-table">
+                <thead>
+                    <tr>
+                        <th>Gas Car ID</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Year</th>
+                        <th>Range</th>
+                        <th>Price</th>
+                        <th>MPG</th>
+                        <th>Add On(s)</th>
+                    </tr>
+                </thead>
+            </table>
+            <form id="gas-car-form" onsubmit="createGasCar(event)">
+                <label>Make</label>
+                    <input id="gas-car-make-input" type="text" placeholder="Enter gas make here..." name="gas-make" />
+                <label>Model</label>
+                    <input id="gas-car-model-input" type="text" placeholder="Enter gas model here..." name="gas-model" />
+                <label>Year</label>
+                    <input id="gas-car-year-input" type="text" placeholder="Enter gas year here..." name="gas-year" />
+                <label>Range</label>
+                    <input id="gas-car-range-input" type="text" placeholder="Enter gas range here..." name="gas-range" />
+                <label>Price</label>
+                    <input id="gas-car-price-input" type="text" placeholder="Enter gas price here..." name="gas-price" />
+                <label>MPG</label>
+                    <input id="gas-car-mpg-input" type="text" placeholder="Enter mpg here..." name="mpg" />
+                <label>Add On(s)</label>
+                    <input id="gas-car-addons-input" type="text" placeholder="Enter gas addons here..." name="gas-addons" />
+                    <button class="btn btn-info submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ELECTRIC CARS TABLE -->
+    <div id="ElectricCars" class="tabcontent">
+        <div class="electric-car-header-section">
+            <h1>Electric Cars Table</h1>
+            <table class="table" id="electric-car-table">
+                <thead>
+                    <tr>
+                        <th>Electric Car ID</th>
+                        <th>Make</th>
+                        <th>Model</th>
+                        <th>Year</th>
+                        <th>Range</th>
+                        <th>Price</th>
+                        <th>KWH</th>
+                        <th>Add On(s)</th>
+                    </tr>
+                </thead>
+            </table>
+            <form id="electric-car-form" onsubmit="createElectricCar(event)">
+                <label>Make</label>
+                    <input id="electric-car-make-input" type="text" placeholder="Enter electric make here..." name="electric-make" />
+                <label>Model</label>
+                    <input id="electric-car-model-input" type="text" placeholder="Enter electric model here..." name="electric-model" />
+                <label>Year</label>
+                    <input id="electric-car-year-input" type="text" placeholder="Enter electric year here..." name="electric-year" />
+                <label>Range</label>
+                    <input id="electric-car-range-input" type="text" placeholder="Enter electric range here..." name="electric-range" />
+                <label>Price</label>
+                    <input id="electric-car-price-input" type="text" placeholder="Enter electric price here..." name="electric-price" />
+                <label>KWH</label>
+                    <input id="electric-car-kwh-input" type="text" placeholder="Enter kwh here..." name="kwh" />
+                <label>Add On(s)</label>
+                    <input id="electric-car-addons-input" type="text" placeholder="Enter electric addons here..." name="electric-addons" />
+                    <button class="btn btn-info submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- CAR PAIRS TABLE -->
+    <div id="Car_Pairs" class="tabcontent">
+        <div class="pair-header-section">
+            <h1>Car Pairs Table</h1>
+            <table class="table" id="pair-table">
+                <thead>
+                    <tr>
+                        <th>Pair ID</th>
+                        <th>User ID</th>
+                        <th>Gas Car ID</th>
+                        <th>Electric Car ID</th>
+                    </tr>
+                </thead>
+            </table>
+            <form id="pair-form" onsubmit="createPair(event)">
+                <label>Pair ID</label>
+                    <input id="pair-id-input" type="text" placeholder="Enter pair ID here..." name="pair-id" />
+                <label>User ID</label>
+                    <input id="user-id-input" type="text" placeholder="Enter user ID here..." name="user-id" />
+                <label>Gas Car ID</label>
+                    <input id="gas-car-id-input" type="text" placeholder="Enter gas car ID here..." name="gas-car-id" />
+                <label>Electric Car ID</label>
+                    <input id="electric-car-id-input" type="text" placeholder="Enter electric car ID here..." name="electric-car-id" />
+                    <button class="btn btn-info submit-btn">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="../resources/scripts/admin.js"></script>
+</body>
+</html>
