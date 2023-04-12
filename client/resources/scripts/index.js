@@ -35,33 +35,6 @@ const getPairs = function () {
     });
 };
 
-
-
-
-///// CREATE CAR PAIR /////
-const createPair = async (event) => {      //////THIS NEEDS TO WORK WITH THE CREATEPAIR.CS IN THE API, TARGET.KEY IS JUST A FILLER
-    event.preventDefault();
-    const target = event.target;
-    const carPair = {
-        gasID: target.key,
-        electricID: target.key,
-        pairID: target.key
-    }
-}
-
-///// DELETE CAR PAIR /////
-const deletePair = async (pairID) => {
-    await fetch(`${url}/${pairID}`, {
-        method: 'DELETE',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-        },
-    });
-    render();
-}
-
-
 // DISPLAY GAS CAR
 const displayGasCar = (gasCarId) => {
     const apiUrl = 'http://localhost:5104/api/gascar/' + gasCarId; // Replace with your actual API endpoint.
@@ -103,3 +76,29 @@ const displayElectricCar = (electricCarId) => {
     };
     xhr.send();
 };
+
+
+///// CREATE CAR PAIR /////
+const createPair = async (event) => {      //////THIS NEEDS TO WORK WITH THE CREATEPAIR.CS IN THE API, TARGET.KEY IS JUST A FILLER
+    event.preventDefault();
+    const target = event.target;
+    const carPair = {
+        gasID: target.key,
+        electricID: target.key,
+        pairID: target.key
+    }
+}
+
+///// DELETE CAR PAIR /////
+const deletePair = async (pairID) => {
+    await fetch(`${url}/${pairID}`, {
+        method: 'DELETE',
+        headers: {
+          Accept: '*/*',
+          'Content-Type': 'application/json',
+        },
+    });
+    render();
+}
+
+

@@ -12,6 +12,23 @@ const render = () => {
     getPairs();
 }
 
+function displayContent(event, tabName) {
+    // Get all tab content elements and hide them
+    let tabContents = document.getElementsByClassName("tabcontent");
+    for (let i = 0; i < tabContents.length; i++) {
+        tabContents[i].style.display = "none";
+    }
+
+    // Get all tab buttons and remove the "active" class
+    let tabLinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tabLinks.length; i++) {
+        tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+    }
+
+    // Show the current tab content and add the "active" class to the clicked tab button
+    document.getElementById(tabName).style.display = "block";
+    event.currentTarget.className += " active";
+}
 
 /////////////////////////////////////////////   ADMINS    /////////////////////////////////////////////
 /////////////////////////////////////////////   ADMINS    /////////////////////////////////////////////
@@ -72,17 +89,17 @@ const makeAdminBody = (admins) => {
 
         // ADMIN ID TABLE DATA
         let adminTd1 = document.createElement("td");
-        adminTd1.innerHTML = c.adminID;
+        adminTd1.innerHTML = c.adminId;
         adminTR.appendChild(adminTd1);
 
         // ADMIN EMAIL TABLE DATA
         let adminTd2 = document.createElement("td");
-        adminTd2.innerHTML = c.adminEmail;
+        adminTd2.innerHTML = c.email;
         adminTR.appendChild(adminTd2);
 
         // ADMIN PASSWORD TABLE DATA
         let adminTd3 = document.createElement("td");
-        adminTd3.innerHTML = c.adminPassword;
+        adminTd3.innerHTML = c.password;
         adminTR.appendChild(adminTd3);
 
         // ADMIN SECURITY KEY TABLE DATA
@@ -112,7 +129,7 @@ const makeAdminBody = (admins) => {
             // ADMIN FORM
             let adminForm = document.getElementById("admin-form");
             adminForm.onsubmit = editAdmin;
-            adminForm.key = c.adminID;
+            adminForm.key = c.adminId;
         });
 
         // ADMIN DELETE BUTTON
@@ -121,7 +138,7 @@ const makeAdminBody = (admins) => {
         adminDeleteBtn.innerHTML = "Delete";
         adminDeleteBtn.classList.add("delete-btn");
         adminDeleteBtn.addEventListener("click", () => {
-            deleteAdmin(c.adminID);
+            deleteAdmin(c.adminId);
         });
 
         adminTbody.appendChild(adminTR);
@@ -135,11 +152,14 @@ const createAdmin = async (event) => {
     event.preventDefault();
     const target = event.target;
     const admin = {
-        email: target.email.value,
-        password: target.password.value,
-        securityKey: target.securityKey.value
-    }
-    await fetch(url, {
+        Email: target["admin-email"].value,
+        Password: target["admin-password"].value,
+        SecurityKey: target["security-key"].value
+    };
+
+    console.log("Sending Admin:", JSON.stringify(admin));
+
+    const response = await fetch(adminUrl, {
         method: 'POST',
         headers: {
           Accept: '*/*',
@@ -147,23 +167,30 @@ const createAdmin = async (event) => {
         },
         body: JSON.stringify(admin),
     });
-    render();
-    target.email.value = "";
-    target.password.value = "";
-    target.securityKey.value = "";
-}
+
+    if (response.ok) {
+        console.log("Admin created successfully");
+        render();
+        target["admin-email"].value = "";
+        target["admin-password"].value = "";
+        target["security-key"].value = "";
+    } else {
+        console.error("Error creating admin:", response.statusText);
+    }
+};
+
 
 ///// EDIT ADMIN /////
 const editAdmin = async (event) => {
     event.preventDefault();
     const target = event.target;
     const admin = {
-        adminID: target.key,
-        email: target.email.value,
-        password: target.password.value,
-        securityKey: target.securityKey.value
+        AdminID: target.key,
+        Email: target.adminEmail.value,
+        Password: target.adminPassword.value,
+        SecurityKey: target.adminSecurityKey.value
     }
-    await fetch(`${url}/${target.key}`, {
+    await fetch(`${adminUrl}/${target.key}`, {
         method: 'PUT',
         headers: {
           Accept: '*/*',
@@ -172,14 +199,14 @@ const editAdmin = async (event) => {
         body: JSON.stringify(admin),
     });
     render();
-    target.email.value = "";
-    target.password.value = "";
-    target.securityKey.value = "";
+    target.adminEmail.value = "";
+    target.adminPassword.value = "";
+    target.adminSecurityKey.value = "";
 }
 
 ///// DELETE ADMIN /////
-const deleteAdmin = async (adminID) => {
-    await fetch(`${url}/${adminID}`, {
+const deleteAdmin = async (AdminId) => {
+    await fetch(`${adminUrl}/${AdminId}`, {
         method: 'DELETE',
         headers: {
           Accept: '*/*',
