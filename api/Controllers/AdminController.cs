@@ -28,7 +28,7 @@ namespace api.Controllers
         public IActionResult Get(string id)
         {
             SaveAdmin mySavedAdmin = new SaveAdmin();
-            Admin admin = new Admin();
+            Admin admin = mySavedAdmin.GetAdminById(id);
             Console.WriteLine("Fetched admin: " + JsonConvert.SerializeObject(admin));
             if(admin != null)
             {
