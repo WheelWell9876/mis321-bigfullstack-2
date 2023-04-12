@@ -14,7 +14,7 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"CREATE TABLE gasCars(gasCarId VARCHAR(255) PRIMARY KEY, make TEXT, model TEXT, year INTEGER, range INTEGER, price DOUBLE, mpg DOUBLE, addOn TEXT)";
+            string stm = @"CREATE TABLE gasCars(gasCarId VARCHAR(255) PRIMARY KEY, make TEXT, model TEXT, gasCarYear INTEGER, gasCarRange INTEGER, price DOUBLE, mpg DOUBLE, addOn TEXT)";
 
             using var cmd = new MySqlCommand(stm, con);
 
@@ -28,15 +28,15 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"INSERT INTO gasCars(gasCarId, make, model, year, range, price, mpg, addOn) VALUES(@gasCarId, @make, @model, @year, @range, @price, @mpg, @addOn)";
+            string stm = @"INSERT INTO gasCars(gasCarId, make, model, gasCarYear, gasCarRange, price, mpg, addOn) VALUES(@gasCarId, @make, @model, @gasCarYear, @gasCarRange, @price, @mpg, @addOn)";
 
             using var cmd = new MySqlCommand(stm, con);
 
             cmd.Parameters.AddWithValue("@gasCarId", myGasCar.GasCarId);
             cmd.Parameters.AddWithValue("@make", myGasCar.Make);
             cmd.Parameters.AddWithValue("@model", myGasCar.Model);
-            cmd.Parameters.AddWithValue("@year", myGasCar.Year);
-            cmd.Parameters.AddWithValue("@range", myGasCar.Range);
+            cmd.Parameters.AddWithValue("@gasCarYear", myGasCar.Year);
+            cmd.Parameters.AddWithValue("@gasCarRange", myGasCar.Range);
             cmd.Parameters.AddWithValue("@price", myGasCar.Price);
             cmd.Parameters.AddWithValue("@mpg", myGasCar.MPG);
             cmd.Parameters.AddWithValue("@addOn", myGasCar.AddOn);
@@ -53,15 +53,15 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"UPDATE gasCars SET make = @make, model = @model, year = @year, range = @range, price = @price, mpg = @mpg, addOn = @addOn WHERE gasCarId = @gasCarId";
+            string stm = @"UPDATE gasCars SET make = @make, model = @model, gasCarYear = @gasCarYear, gasCarRange = @gasCarRange, price = @price, mpg = @mpg, addOn = @addOn WHERE gasCarId = @gasCarId";
 
             using var cmd = new MySqlCommand(stm, con);
 
             cmd.Parameters.AddWithValue("@gasCarId", myGasCar.GasCarId);
             cmd.Parameters.AddWithValue("@make", myGasCar.Make);
             cmd.Parameters.AddWithValue("@model", myGasCar.Model);
-            cmd.Parameters.AddWithValue("@year", myGasCar.Year);
-            cmd.Parameters.AddWithValue("@range", myGasCar.Range);
+            cmd.Parameters.AddWithValue("@gasCarYear", myGasCar.Year);
+            cmd.Parameters.AddWithValue("@gasCarRange", myGasCar.Range);
             cmd.Parameters.AddWithValue("@price", myGasCar.Price);
             cmd.Parameters.AddWithValue("@mpg", myGasCar.MPG);
             cmd.Parameters.AddWithValue("@addOn", myGasCar.AddOn);
@@ -79,19 +79,19 @@ namespace Bigproject.DataAccess
         public void InitializeDatabase()
         {
             string sql = 
-                @"USE v7z0pdstr5cezoil;
+                @"USE p6nr5re8fmcvgnki;
                 DROP TABLE IF EXISTS gasCars;
                 CREATE TABLE IF NOT EXISTS gasCars (
                     gasCarId VARCHAR(255) PRIMARY KEY,
                     make TEXT NOT NULL,
                     model TEXT NOT NULL,
-                    year INTEGER NOT NULL,
-                    range INTEGER NOT NULL DEFAULT 0,
+                    gasCarYear INTEGER NOT NULL,
+                    gasCarRange INTEGER NOT NULL DEFAULT 0,
                     price DOUBLE NOT NULL DEFAULT 0,
                     mpg DOUBLE NOT NULL DEFAULT 0,
                     addOn TEXT NOT NULL
                 );
-                SELECT * FROM v7z0pdstr5cezoil.gasCars;";
+                SELECT * FROM p6nr5re8fmcvgnki.gasCars;";
 
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;
@@ -123,8 +123,8 @@ namespace Bigproject.DataAccess
                     GasCarId = reader.GetString("gasCarId"),
                     Make = reader.GetString("make"),
                     Model = reader.GetString("model"),
-                    Year = reader.GetInt32("year"),
-                    Range = reader.GetInt32("range"),
+                    Year = reader.GetInt32("gasCarYear"),
+                    Range = reader.GetInt32("gasCarRange"),
                     Price = reader.GetDouble("price"),
                     MPG = reader.GetDouble("mpg"),
                     AddOn = reader.GetString("addOn"),

@@ -31,8 +31,8 @@ namespace Bigproject.DataAccess
                     GasCarId = reader["gasCarId"].ToString(),
                     Make = reader["make"].ToString(),
                     Model = reader["model"].ToString(),
-                    Year = Convert.ToInt32(reader["year"]),
-                    Range = Convert.ToInt32(reader["range"]),
+                    Year = Convert.ToInt32(reader["gasCarYear"]),
+                    Range = Convert.ToInt32(reader["gasCarRange"]),
                     Price = Convert.ToDouble(reader["price"]),
                     MPG = Convert.ToDouble(reader["mpg"]),
                     AddOn = reader["addOn"].ToString()
