@@ -1,95 +1,39 @@
-const url = "http://localhost:5162/api/car";
+const gasCarUrl = "http://localhost:5104/api/gascar";
+const electricCarUrl = "http://localhost:5104/api/electriccar";
+const pairUrl = "http://localhost:5104/api/pair";
 
 const render = () => {
-    getCars();
+    getGasCars();
+    getElectricCars();
+    getPairs();
 }
 
-//// GET CARS ////
-const getCars = function () {
-    fetch(url).then(function (response) {
+//// GET GAS CARS ////
+const getGasCars = function () {
+    fetch(gasCarUrl).then(function (response) {
         return response.json();
     }).then(function(data){
-        makeCarTable(data);
+        displayGasCar(data);
     });
 };
 
-//// MAKE TABLE ////
-const makeCarTable = (cars) => {
-    let table = document.getElementById("car-table");
-    table.innerHTML = "";
-
-    table.appendChild(makeHeader());
-    table.appendChild(makeStatsList());
-    table.appendChild(makeLeftSideStats(cars));
-    table.appendChild(makeRightSideStats(cars));
-}
-
-///// MAKE HEADER /////
-const makeStatsHeader = () => {
-    const header  = document.createElement("thead");
-
-    const th1 = document.createElement("th");
-    th1.innerHTML = "Gas Vehicle";
-    header.appendChild(th1);
-
-    const th2 = document.createElement("th");
-    th2.innerHTML = "*************";
-    header.appendChild(th2);
-
-    const th3 = document.createElement("th");
-    th3.innerHTML = "Electric Vehicle";
-    header.appendChild(th3);
-}
-
-///// STATS GAS CAR /////
-const makeLeftSideStats = async (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const gasCar = {
-        gasId: target.key,
-        gasMake: document.getElementById("gas-car-make"),
-        gasModel: document.getElementById("gas-car-model"),
-        gasYear: document.getElementById("gas-car-year"),
-        gasRange: document.getElementById("gas-car-range"),
-        gasPrice: document.getElementById("gas-car-price"),
-        gasMPG: document.getElementById("gas-car-mpg"),
-        gasAddOn: document.getElementById("gas-car-addons")
-    }
-    await fetch(url, {
-        method: "GET",
-        headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(gasCar),
+///// Get ELECTRIC Cars /////
+const getElectricCars = function () {
+    fetch(electricCarUrl).then(function (response) {
+        return response.json();
+    }).then(function(data){
+        displayElectricCar(data);
     });
-    render();
-}
+};
 
-///// STATS ELECTRIC CAR //////
-const makeRightSideStats = async (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const electricCar = {
-        electricId: target.key,
-        electricMake: document.getElementById("electric-car-make"),
-        electricModel: document.getElementById("electric-car-model"),
-        electricYear: document.getElementById("electric-car-year"),
-        electricRange: document.getElementById("electric-car-range"),
-        electricPrice: document.getElementById("electric-car-price"),
-        electricMPG: document.getElementById("electric-car-mpg"),
-        electricAddOn: document.getElementById("electric-car-addons")
-    }
-    await fetch(url, {
-        method: "GET",
-        headers: {
-            Accept: '*/*',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(electricCar),
+///// Get PAIRS /////
+const getPairs = function () {
+    fetch(pairUrl).then(function (response) {
+        return response.json();
+    }).then(function(data){
+        makePairTable(data);
     });
-    render();
-}
+};
 
 
 
@@ -117,97 +61,45 @@ const deletePair = async (pairID) => {
     render();
 }
 
-///// CREATE USER /////
-const createUser = async (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const user = {
-        email: target.email.value,
-        password: target.password.value
-    }
-    await fetch(url, {
-        method: 'POST',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-    });
-    render();
-    target.email.value = "";
-    target.password.value = "";
-}
 
-///// EDIT USER /////
-const editUser = async (event) => {
-    event.preventDefault();
-    const target = event.target;
-    const user = {
-        userID: target.key,
-        email: target.email.value,
-        password: target.password.value
-    }
-    await fetch(`${url}/${target.key}`, {
-        method: 'PUT',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-    });
-    render();
-    target.email.value = "";
-    target.password.value = "";
-}
+// DISPLAY GAS CAR
+const displayGasCar = (gasCarId) => {
+    const apiUrl = 'http://localhost:5104/api/gascar/' + gasCarId; // Replace with your actual API endpoint.
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', apiUrl, true);
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const gasCar = JSON.parse(xhr.responseText);
+            document.getElementById('gas-car-make-display').innerText = gasCar.make;
+            document.getElementById('gas-car-model-display').innerText = gasCar.model;
+            document.getElementById('gas-car-year-display').innerText = gasCar.year;
+            document.getElementById('gas-car-range-display').innerText = gasCar.range;
+            document.getElementById('gas-car-price-display').innerText = gasCar.price;
+            document.getElementById('gas-car-mpg-display').innerText = gasCar.mpg;
+            document.getElementById('gas-car-addons-display').innerText = gasCar.addOn;
+        }
+    };
+    xhr.send();
+};
 
-///// DELETE USER /////
-const deleteUser = async (userID) => {
-    await fetch(`${url}/${userID}`, {
-        method: 'DELETE',
-        headers: {
-          Accept: '*/*',
-          'Content-Type': 'application/json',
-        },
-    });
-    render();
-}
-
-
-///// DISPLAY GAS CAR /////
-function displayGasCar(gasCarId) {
-    const apiUrl = '/api/gascars/' + gasCarId; // Replace with your actual API endpoint.
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('gas-car-make').innerText = data.make;
-            document.getElementById('gas-car-model').innerText = data.model;
-            document.getElementById('gas-car-year').innerText = data.year;
-            document.getElementById('gas-car-range').innerText = data.range;
-            document.getElementById('gas-car-price').innerText = data.price;
-            document.getElementById('gas-car-mpg').innerText = data.mpg;
-            document.getElementById('gas-car-addons').innerText = data.addOn;
-        })
-        .catch(error => {
-            console.error('Error fetching gas car data:', error);
-        });
-}
-
-///// DISPLAY ELECTRIC CAR /////
-function displayElectricCar(electricCarId) {
-    const apiUrl = '/api/electriccars/' + electricCarId; // Replace with your actual API endpoint.
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('electric-car-make').innerText = data.make;
-            document.getElementById('electric-car-model').innerText = data.model;
-            document.getElementById('electric-car-year').innerText = data.year;
-            document.getElementById('electric-car-range').innerText = data.range;
-            document.getElementById('electric-car-price').innerText = data.price;
-            document.getElementById('electric-car-kwh').innerText = data.kwh;
-            document.getElementById('electric-car-addons').innerText = data.addOn;
-        })
-        .catch(error => {
-            console.error('Error fetching electric car data:', error);
-        });
-}
-
+// DISPLAY ELECTRIC CAR
+const displayElectricCar = (electricCarId) => {
+    const apiUrl = 'http://localhost:5104/api/electriccar/' + electricCarId; // Replace with your actual API endpoint.
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', apiUrl, true);
+    xhr.setRequestHeader('Accept', '*/*');
+    xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            const electricCar = JSON.parse(xhr.responseText);
+            document.getElementById('electric-car-make-display').innerText = electricCar.make;
+            document.getElementById('electric-car-model-display').innerText = electricCar.model;
+            document.getElementById('electric-car-year-display').innerText = electricCar.year;
+            document.getElementById('electric-car-range-display').innerText = electricCar.range;
+            document.getElementById('electric-car-price-display').innerText = electricCar.price;
+            document.getElementById('electric-car-kwh-display').innerText = electricCar.kwh;
+            document.getElementById('electric-car-addons-display').innerText = electricCar.addOn;
+        }
+    };
+    xhr.send();
+};
