@@ -270,17 +270,17 @@ const makeUserBody = (users) => {
 
         // USER ID TABLE DATA
         let userTd1 = document.createElement("td");
-        userTd1.innerHTML = c.userID;
+        userTd1.innerHTML = c.userId;
         userTR.appendChild(userTd1);
 
         // USER EMAIL TABLE DATA
         let userTd2 = document.createElement("td");
-        userTd2.innerHTML = c.userEmail;
+        userTd2.innerHTML = c.email;
         userTR.appendChild(userTd2);
 
         // USER PASSWORD TABLE DATA
         let userTd3 = document.createElement("td");
-        userTd3.innerHTML = c.userPassword;
+        userTd3.innerHTML = c.password;
         userTR.appendChild(userTd3);
 
         // USER EDIT BUTTON
@@ -301,7 +301,7 @@ const makeUserBody = (users) => {
             // USER FORM
             let userForm = document.getElementById("user-form");
             userForm.onsubmit = editUser;
-            userForm.key = c.userID;
+            userForm.key = c.userId;
         });
 
         // USER DELETE BUTTON
@@ -310,7 +310,7 @@ const makeUserBody = (users) => {
         deleteBtn.innerHTML = "Delete";
         deleteBtn.classList.add("delete-btn");
         deleteBtn.addEventListener("click", () => {
-            deleteUser(c.userID);
+            deleteUser(c.userId);
         });
 
         userTbody.appendChild(userTR);
@@ -324,10 +324,10 @@ const createUser = async (event) => {
     event.preventDefault();
     const target = event.target;
     const user = {
-        email: target.email.value,
-        password: target.password.value
+        Email: target["user-email"].value,
+        Password: target["user-password"].value
     }
-    await fetch(url, {
+    await fetch(userUrl, {
         method: 'POST',
         headers: {
           Accept: '*/*',
@@ -336,8 +336,8 @@ const createUser = async (event) => {
         body: JSON.stringify(user),
     });
     render();
-    target.email.value = "";
-    target.password.value = "";
+    target["user-email"].value = "";
+    target["user-password"].value = "";
 }
 
 ///// EDIT USER /////
@@ -345,11 +345,11 @@ const editUser = async (event) => {
     event.preventDefault();
     const target = event.target;
     const user = {
-        userID: target.key,
-        email: target.email.value,
-        password: target.password.value
+        UserId: target.key,
+        Email: target.userEmail.value,
+        Password: target.userPassword.value
     }
-    await fetch(`${url}/${target.key}`, {
+    await fetch(`${userUrl}/${target.key}`, {
         method: 'PUT',
         headers: {
           Accept: '*/*',
@@ -358,13 +358,13 @@ const editUser = async (event) => {
         body: JSON.stringify(user),
     });
     render();
-    target.email.value = "";
-    target.password.value = "";
+    target.userEmail.value = "";
+    target.userPassword.value = "";
 }
 
 ///// DELETE USER /////
 const deleteUser = async (userID) => {
-    await fetch(`${url}/${userID}`, {
+    await fetch(`${userUrl}/${userID}`, {
         method: 'DELETE',
         headers: {
           Accept: '*/*',
@@ -455,42 +455,42 @@ const makeGasCarBody = (gasCars) => {
 
         // GAS CAR ID TABLE DATA
         let gasCarTd1 = document.createElement("td");
-        gasCarTd1.innerHTML = c.gasCarID;
+        gasCarTd1.innerHTML = c.gasCarId;
         gasCarTR.appendChild(gasCarTd1);
 
         // GAS CAR MAKE TABLE DATA
         let gasCarTd2 = document.createElement("td");
-        gasCarTd2.innerHTML = c.gasCarMake;
+        gasCarTd2.innerHTML = c.make;
         gasCarTR.appendChild(gasCarTd2);
 
         // GAS CAR MODEL TABLE DATA
         let gasCarTd3 = document.createElement("td");
-        gasCarTd3.innerHTML = c.gasCarModel;
+        gasCarTd3.innerHTML = c.model;
         gasCarTR.appendChild(gasCarTd3);
 
         // GAS CAR YEAR TABLE DATA
         let gasCarTd4 = document.createElement("td");
-        gasCarTd4.innerHTML = c.gasCarYear;
+        gasCarTd4.innerHTML = c.year;
         gasCarTR.appendChild(gasCarTd4);
 
         // GAS CAR RANGE TABLE DATA
         let gasCarTd5 = document.createElement("td");
-        gasCarTd5.innerHTML = c.gasCarRange;
+        gasCarTd5.innerHTML = c.range;
         gasCarTR.appendChild(gasCarTd5);
 
         // GAS CAR PRICE TABLE DATA
         let gasCarTd6 = document.createElement("td");
-        gasCarTd6.innerHTML = c.gasCarPrice;
+        gasCarTd6.innerHTML = c.price;
         gasCarTR.appendChild(gasCarTd6);
 
         // GAS CAR MPG TABLE DATA
         let gasCarTd7 = document.createElement("td");
-        gasCarTd7.innerHTML = c.gasCarMPG;
+        gasCarTd7.innerHTML = c.mpg;
         gasCarTR.appendChild(gasCarTd7);
 
         // GAS CAR ADDON TABLE DATA
         let gasCarTd8 = document.createElement("td");
-        gasCarTd8.innerHTML = c.gasCarAddOn;
+        gasCarTd8.innerHTML = c.addOn;
         gasCarTR.appendChild(gasCarTd8);
 
         // GAS CAR EDIT BUTTON
@@ -554,15 +554,15 @@ const createGas = async (event) => {
     event.preventDefault();
     const target = event.target;
     const gasCar = {
-        gasMake: target.gasMake.value,
-        gasModel: target.gasModel.value,
-        gasYear: target.gasYear.value,
-        gasRange: target.gasRange.value,
-        gasPrice: target.gasPrice.value,
-        gasMPG: target.gasMPG.value,
-        gasAddOn: target.gasAddOn.value
+        Make: target["gas-car-make"].value,
+        Model: target["gas-car-model"].value,
+        Year: target["gas-car-year"].value,
+        Range: target["gas-car-range"].value,
+        Price: target["gas-car-price"].value,
+        MPG: target["gas-car-mpg"].value,
+        AddOn: target["gas-car-addon"].value
     }
-    await fetch(url, {
+    await fetch(gasCarUrl, {
         method: 'POST',
         headers: {
           Accept: '*/*',
@@ -571,13 +571,13 @@ const createGas = async (event) => {
         body: JSON.stringify(gasCar),
     });
     render();
-    target.gasMake.value = "";
-    target.gasModel.value = "";
-    target.gasYear.value = "";
-    target.gasRange.value = "";
-    target.gasPrice.value = "";
-    target.gasMPG.value = "";
-    target.gasAddOn.value = "";
+    target["gas-car-make"].value = "";
+    target["gas-car-model"].value = "";
+    target["gas-car-year"].value = "";
+    target["gas-car-range"].value = "";
+    target["gas-car-price"].value = "";
+    target["gas-car-mpg"].value = "";
+    target["gas-car-addon"].value = "";
 }
 
 ///// EDIT GAS CAR /////
@@ -585,16 +585,16 @@ const editGas = async (event) => {
     event.preventDefault();
     const target = event.target;
     const gasCar = {
-        gasCarId: target.key,
-        gasMake: target.gasMake.value,
-        gasModel: target.gasModel.value,
-        gasYear: target.gasYear.value,
-        gasRange: target.gasRange.value,
-        gasPrice: target.gasPrice.value,
-        gasMPG: target.gasMPG.value,
-        gasAddOn: target.gasAddOn.value
+        GasCarId: target.key,
+        Make: target.gasCarMake.value,
+        Model: target.gasCarModel.value,
+        Year: target.gasCarYear.value,
+        Range: target.gasCarRange.value,
+        Price: target.gasCarPrice.value,
+        MPG: target.gasCarMpg.value,
+        AddOn: target.gasCarAddOn.value
     }
-    await fetch(`${url}/${target.key}`, {
+    await fetch(`${gasCarUrl}/${target.key}`, {
         method: 'PUT',
         headers: {
           Accept: '*/*',
@@ -603,18 +603,18 @@ const editGas = async (event) => {
         body: JSON.stringify(gasCar),
     });
     render();
-    target.gasMake.value = "";
-    target.gasModel.value = "";
-    target.gasYear.value = "";
-    target.gasRange.value = "";
-    target.gasPrice.value = "";
-    target.gasMPG.value = "";
-    target.gasAddOn.value = "";
+    target.gasCarMake.value = "";
+    target.gasCarModel.value = "";
+    target.gasCarYear.value = "";
+    target.gasCarRange.value = "";
+    target.gasCarPrice.value = "";
+    target.gasCarMpg.value = "";
+    target.gasCarAddOn.value = "";
 }
 
 ///// DELETE GAS CAR /////
 const deleteGas = async (gasCarId) => {
-    await fetch(`${url}/${gasCarId}`, {
+    await fetch(`${gasCarUrl}/${gasCarId}`, {
         method: 'DELETE',
         headers: {
           Accept: '*/*',
@@ -704,42 +704,42 @@ const makeElectricCarBody = (electricCars) => {
 
         // ELECTRIC CAR ID TABLE DATA
         let electricCarTd1 = document.createElement("td");
-        electricCarTd1.innerHTML = c.electricCarID;
+        electricCarTd1.innerHTML = c.electricCarId;
         electricCarTR.appendChild(electricCarTd1);
 
         // ELECTRIC CAR MAKE TABLE DATA
         let electricCarTd2 = document.createElement("td");
-        electricCarTd2.innerHTML = c.electricCarMake;
+        electricCarTd2.innerHTML = c.make;
         electricCarTR.appendChild(electricCarTd2);
 
         // ELECTRIC CAR MODEL TABLE DATA
         let electricCarTd3 = document.createElement("td");
-        electricCarTd3.innerHTML = c.electricCarModel;
+        electricCarTd3.innerHTML = c.model;
         electricCarTR.appendChild(electricCarTd3);
 
         // ELECTRIC CAR YEAR TABLE DATA
         let electricCarTd4 = document.createElement("td");
-        electricCarTd4.innerHTML = c.electricCarYear;
+        electricCarTd4.innerHTML = c.year;
         electricCarTR.appendChild(electricCarTd4);
 
         // ELECTRIC CAR RANGE TABLE DATA
         let electricCarTd5 = document.createElement("td");
-        electricCarTd5.innerHTML = c.electricCarRange;
+        electricCarTd5.innerHTML = c.range;
         electricCarTR.appendChild(electricCarTd5);
 
         // ELECTRIC CAR PRICE TABLE DATA
         let electricCarTd6 = document.createElement("td");
-        electricCarTd6.innerHTML = c.electricCarPrice;
+        electricCarTd6.innerHTML = c.price;
         electricCarTR.appendChild(electricCarTd6);
 
         // ELECTRIC CAR MPG TABLE DATA
         let electricCarTd7 = document.createElement("td");
-        electricCarTd7.innerHTML = c.electricCarKWH;
+        electricCarTd7.innerHTML = c.kwh;
         electricCarTR.appendChild(electricCarTd7);
 
         // ELECTRIC CAR ADDON TABLE DATA
         let electricCarTd8 = document.createElement("td");
-        electricCarTd8.innerHTML = c.electricCarAddOn;
+        electricCarTd8.innerHTML = c.addOn;
         electricCarTR.appendChild(electricCarTd8);
 
         // ELECTRIC CAR EDIT BUTTON
@@ -802,15 +802,15 @@ const createElectric = async (event) => {
     event.preventDefault();
     const target = event.target;
     const electricCar = {
-        electricMake: target.electricMake.value,
-        electricModel: target.electricModel.value,
-        electricYear: target.electricYear.value,
-        electricRange: target.electricRange.value,
-        electricPrice: target.electricPrice.value,
-        electricMPG: target.electricMPG.value,
-        electricAddOn: target.electricAddOn.value
+        Make: target["electric-make"].value,
+        Model: target["electric-model"].value,
+        Year: target["electric-year"].value,
+        Range: target["electric-range"].value,
+        Price: target["electric-price"].value,
+        MPG: target["electric-kwh"].value,
+        AddOn: target["electric-addon"].value
     }
-    await fetch(url, {
+    await fetch(electricCarUrl, {
         method: 'POST',
         headers: {
           Accept: '*/*',
@@ -819,13 +819,13 @@ const createElectric = async (event) => {
         body: JSON.stringify(electricCar),
     });
     render();
-    target.electricMake.value = "";
-    target.electricModel.value = "";
-    target.electricYear.value = "";
-    target.electricRange.value = "";
-    target.electricPrice.value = "";
-    target.electricMPG.value = "";
-    target.electricAddOn.value = "";
+    target["electric-make"].value = "";
+    target["electric-model"].value = "";
+    target["electric-year"].value = "";
+    target["electric-range"].value = "";
+    target["electric-price"].value = "";
+    target["electric-kwh"].value = "";
+    target["electric-addon"].value = "";
 }
 
 ///// EDIT ELECTRIC CAR /////
@@ -833,16 +833,16 @@ const editElectric = async (event) => {
     event.preventDefault();
     const target = event.target;
     const electricCar = {
-        electricCarId: target.key,
-        electricMake: target.electricMake.value,
-        electricModel: target.electricModel.value,
-        electricYear: target.electricYear.value,
-        electricRange: target.electricRange.value,
-        electricPrice: target.electricPrice.value,
-        electricMPG: target.electricMPG.value,
-        electricAddOn: target.electricAddOn.value
+        ElectricCarId: target.key,
+        Make: target.electricCarMake.value,
+        Model: target.electricCarModel.value,
+        Year: target.electricCarYear.value,
+        Range: target.electricCarRange.value,
+        Price: target.electricCarPrice.value,
+        KWH: target.electricCarKwh.value,
+        AddOn: target.electricCarAddOn.value
     }
-    await fetch(`${url}/${target.key}`, {
+    await fetch(`${electricCarUrl}/${target.key}`, {
         method: 'PUT',
         headers: {
           Accept: '*/*',
@@ -851,18 +851,18 @@ const editElectric = async (event) => {
         body: JSON.stringify(electricCar),
     });
     render();
-    target.electricMake.value = "";
-    target.electricModel.value = "";
-    target.electricYear.value = "";
-    target.electricRange.value = "";
-    target.electricPrice.value = "";
-    target.electricMPG.value = "";
-    target.electricAddOn.value = "";
+    target.electricCarMake.value = "";
+    target.electricCarModel.value = "";
+    target.electricCarYear.value = "";
+    target.electricCarRange.value = "";
+    target.electricCarPrice.value = "";
+    target.electricCarKwh.value = "";
+    target.electricCarAddOn.value = "";
 }
 
 ///// DELETE ELECTRIC CAR /////
 const deleteElectric = async (electricCarId) => {
-    await fetch(`${url}/${electricCarId}`, {
+    await fetch(`${electricCarUrl}/${electricCarId}`, {
         method: 'DELETE',
         headers: {
           Accept: '*/*',
@@ -933,22 +933,22 @@ const makePairBody = (pairs) => {
 
         // PAIR ID TABLE DATA
         let pairTd1 = document.createElement("td");
-        pairTd1.innerHTML = c.pairID;
+        pairTd1.innerHTML = c.pairId;
         pairTR.appendChild(pairTd1);
 
         // USER ID TABLE DATA
         let pairTd2 = document.createElement("td");
-        pairTd2.innerHTML = c.userID;
+        pairTd2.innerHTML = c.userId;
         pairTR.appendChild(pairTd2);
 
         // GAS CAR ID TABLE DATA
         let pairTd3 = document.createElement("td");
-        pairTd3.innerHTML = c.gasCarID;
+        pairTd3.innerHTML = c.gasCarId;
         pairTR.appendChild(pairTd3);
 
         // ELECTRIC ID TABLE DATA
         let pairTd4 = document.createElement("td");
-        pairTd4.innerHTML = c.electricCarID;
+        pairTd4.innerHTML = c.electricCarId;
         pairTR.appendChild(pairTd4);
 
         let pairEditBtn = document.createElement("button");
@@ -959,23 +959,23 @@ const makePairBody = (pairs) => {
 
             // PAIR ID INPUT
             let pairIDInput = document.getElementById("title-input");
-            pairIDInput.value = c.title;
+            pairIDInput.value = c.PairId;
 
             // USER ID INPUT
             let userIDInput = document.getElementById("artist-input");
-            userIDInput.value = c.artist;
+            userIDInput.value = c.UserId;
 
             // GAS CAR ID INPUT
             let gasCarIDInput = document.getElementById("title-input");
-            gasCarIDInput.value = c.title;
+            gasCarIDInput.value = c.GasCarId;
 
             // ELECTRIC CAR ID INPUT
             let electricCarIDInput = document.getElementById("artist-input");
-            electricCarIDInput.value = c.artist;
+            electricCarIDInput.value = c.ElectricCarId;
 
             let pairForm = document.getElementById("pair-form");
             pairForm.onsubmit = editPair();
-            pairForm.key = c.pairID;
+            pairForm.key = c.pairId;
         });
 
         let deleteBtn = document.createElement("button");
@@ -983,7 +983,7 @@ const makePairBody = (pairs) => {
         deleteBtn.innerHTML = "Delete";
         deleteBtn.classList.add("delete-btn");
         deleteBtn.addEventListener("click", () => {
-            deletePair(c.pairID);
+            deletePair(c.pairId);
         });
 
         pairTbody.appendChild(tr);
@@ -997,15 +997,15 @@ const createPair = async (event) => {      //////THIS NEEDS TO WORK WITH THE CRE
     event.preventDefault();
     const target = event.target;
     const carPair = {
-        gasID: target.key,
-        electricID: target.key,
-        pairID: target.key
+        GasCarId: target.key,
+        ElectricCarId: target.key,
+        PairId: target.key
     }
 }
 
 ///// DELETE CAR PAIR /////
 const deletePair = async (pairID) => {
-    await fetch(`${url}/${pairID}`, {
+    await fetch(`${pairUrl}/${pairID}`, {
         method: 'DELETE',
         headers: {
           Accept: '*/*',
