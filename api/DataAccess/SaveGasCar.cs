@@ -102,7 +102,7 @@ namespace Bigproject.DataAccess
             cmd.ExecuteNonQuery();
         }
 
-        public Gas_Car GetGasById(string id)
+        public Gas_Car GetGasCarById(string id)
         {
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;

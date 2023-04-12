@@ -23,13 +23,14 @@ namespace api.Controllers
             return myGasCarHandler.GetAllGasCars();
         }
 
+
         // GET: api/GasCar/5
         [HttpGet("{id}", Name = "GetGasCar")]
         public IActionResult Get(string id)
         {
             SaveGasCar mySavedGasCar = new SaveGasCar();
-            Gas_Car gasCar = new Gas_Car();
-            Console.WriteLine("Fetched gas car: " + JsonConvert.SerializeObject(gasCar));
+            Gas_Car gasCar = mySavedGasCar.GetGasCarById(id);
+            Console.WriteLine("Fetched user: " + JsonConvert.SerializeObject(gasCar));
             if(gasCar != null)
             {
                 return Ok(gasCar);
@@ -40,12 +41,45 @@ namespace api.Controllers
             }
         }
 
-        // POST: api/GasCar
+        // // POST: api/GasCar
+        // [HttpPost]
+        // public void Post([FromBody] Gas_Car value)
+        // {
+        //     GasCarHandler myGasCarHandler = new GasCarHandler();
+        //     myGasCarHandler.AddGasCar(value);
+        // }
+
         [HttpPost]
-        public void Post([FromBody] Gas_Car value)
+        public IActionResult Post([FromBody] Gas_Car value)
         {
-            GasCarHandler myGasCarHandler = new GasCarHandler();
-            myGasCarHandler.AddGasCar(value);
+            try
+            {
+                Console.WriteLine("Received gas car: " + JsonConvert.SerializeObject(value));
+
+            if (value != null && 
+                !string.IsNullOrEmpty(value.Make) && 
+                !string.IsNullOrEmpty(value.Model) && 
+                value.Year != 0 && // Assuming Year is an integer
+                value.Range != 0 && // Assuming Range is an integer or a float
+                value.Price != 0 && // Assuming Price is an integer or a float
+                value.MPG != 0 && // Assuming KWH is an integer or a float
+                !string.IsNullOrEmpty(value.AddOn))
+            {
+                GasCarHandler myGasCarHandler = new GasCarHandler();
+                myGasCarHandler.AddGasCar(value);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Post method: " + ex.Message);
+                Console.WriteLine("Stack trace: " + ex.StackTrace);
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/GasCar/5

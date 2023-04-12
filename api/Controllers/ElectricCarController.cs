@@ -28,8 +28,8 @@ namespace api.Controllers
         public IActionResult Get(string id)
         {
             SaveElectricCar mySavedElectricCar = new SaveElectricCar();
-            Electric_Car electricCar = new Electric_Car();
-            Console.WriteLine("Fetched electric car: " + JsonConvert.SerializeObject(electricCar));
+            Electric_Car electricCar = mySavedElectricCar.GetElectricCarById(id);
+            Console.WriteLine("Fetched user: " + JsonConvert.SerializeObject(electricCar));
             if(electricCar != null)
             {
                 return Ok(electricCar);
@@ -40,12 +40,45 @@ namespace api.Controllers
             }
         }
 
-        // POST: api/ElectricCar
+        // // POST: api/ElectricCar
+        // [HttpPost]
+        // public void Post([FromBody] Electric_Car value)
+        // {
+        //     ElectricCarHandler myElectricCarHandler = new ElectricCarHandler();
+        //     myElectricCarHandler.AddElectricCar(value);
+        // }
+
         [HttpPost]
-        public void Post([FromBody] Electric_Car value)
+        public IActionResult Post([FromBody] Electric_Car value)
         {
-            ElectricCarHandler myElectricCarHandler = new ElectricCarHandler();
-            myElectricCarHandler.AddElectricCar(value);
+            try
+            {
+                Console.WriteLine("Received electric car: " + JsonConvert.SerializeObject(value));
+
+            if (value != null && 
+                !string.IsNullOrEmpty(value.Make) && 
+                !string.IsNullOrEmpty(value.Model) && 
+                value.Year != 0 && // Assuming Year is an integer
+                value.Range != 0 && // Assuming Range is an integer or a float
+                value.Price != 0 && // Assuming Price is an integer or a float
+                value.KWH != 0 && // Assuming KWH is an integer or a float
+                !string.IsNullOrEmpty(value.AddOn))
+            {
+                ElectricCarHandler myElectricCarHandler = new ElectricCarHandler();
+                myElectricCarHandler.AddElectricCar(value);
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Post method: " + ex.Message);
+                Console.WriteLine("Stack trace: " + ex.StackTrace);
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/ElectricCar/5

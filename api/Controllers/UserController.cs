@@ -29,8 +29,7 @@ namespace api.Controllers
         {
             SaveUser mySavedUser = new SaveUser();
             User user = mySavedUser.GetUserById(id);
-            Console.WriteLine("Fetched User: " + JsonConvert.SerializeObject(user));
-
+            Console.WriteLine("Fetched user: " + JsonConvert.SerializeObject(user));
             if(user != null)
             {
                 return Ok(user);
@@ -41,12 +40,39 @@ namespace api.Controllers
             }
         }
 
+        // // POST: api/User
+        // [HttpPost]
+        // public void Post([FromBody] User value)
+        // {
+        //     UserHandler myUserHandler = new UserHandler();
+        //     myUserHandler.AddUser(value);
+        // }
+
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody] User value)
+        public IActionResult Post([FromBody] User value)
         {
-            UserHandler myUserHandler = new UserHandler();
-            myUserHandler.AddUser(value);
+            try
+            {
+                Console.WriteLine("Received user: " + JsonConvert.SerializeObject(value));
+
+                if (value != null && !string.IsNullOrEmpty(value.Email) && !string.IsNullOrEmpty(value.Password))
+                {
+                    UserHandler myUserHandler = new UserHandler();
+                    myUserHandler.AddUser(value);
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Post method: " + ex.Message);
+                Console.WriteLine("Stack trace: " + ex.StackTrace);
+                return StatusCode(500);
+            }
         }
 
         // PUT: api/User/5
