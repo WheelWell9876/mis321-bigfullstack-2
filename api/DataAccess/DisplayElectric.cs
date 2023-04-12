@@ -14,11 +14,11 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"SELECT * FROM electricCars WHERE electricCarId = @electricCarId";
+            string stm = @"SELECT * FROM electricCars WHERE electricCarID = @electricCarID";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@electricCarId", electricCarId);
+            cmd.Parameters.AddWithValue("@electricCarID", electricCarId);
 
             using MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -28,14 +28,14 @@ namespace Bigproject.DataAccess
             {
                 myElectricCar = new Electric_Car
                 {
-                    ElectricCarId = reader["electricCarId"].ToString(),
-                    Make = reader["make"].ToString(),
-                    Model = reader["model"].ToString(),
+                    ElectricCarId = reader["electricCarID"].ToString(),
+                    Make = reader["electricCarMake"].ToString(),
+                    Model = reader["electricCarModel"].ToString(),
                     Year = Convert.ToInt32(reader["electricCarYear"]),
                     Range = Convert.ToInt32(reader["electricCarRange"]),
-                    Price = Convert.ToDouble(reader["price"]),
-                    KWH = Convert.ToDouble(reader["kwh"]),
-                    AddOn = reader["addOn"].ToString()
+                    Price = Convert.ToDouble(reader["electricCarPrice"]),
+                    KWH = Convert.ToDouble(reader["electricCarKwh"]),
+                    AddOn = reader["electricCarAddOn"].ToString()
                 };
             }
 

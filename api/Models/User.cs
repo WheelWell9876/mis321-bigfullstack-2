@@ -7,7 +7,7 @@ namespace Bigproject.Models
     {
         public string UserId {get; set;}
         public string Email {get; set;}
-        public string Massword {get; set;}
+        public string Password {get; set;}
 
         public ISaveUser SaveUser {get; set;}
 
@@ -19,7 +19,7 @@ namespace Bigproject.Models
 
         public override string ToString()
         {
-            return $"{Email} {Massword}";
+            return $"{Email} {Password}";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"CREATE TABLE car_pairs(pairId VARCHAR(255) PRIMARY KEY, gasCarId VARCHAR(255), electricCarId VARCHAR(255), userId VARCHAR(255), FOREIGN KEY(gasCarId) REFERENCES gas_cars(gasCarId), FOREIGN KEY(electricCarId) REFERENCES electric_cars(electricCarId), FOREIGN KEY(userId) REFERENCES users(userId))";
+            string stm = @"CREATE TABLE car_pairs(pairID VARCHAR(255) PRIMARY KEY, gasCarID VARCHAR(255), electricCarID VARCHAR(255), userID VARCHAR(255), FOREIGN KEY(gasCarID) REFERENCES gas_cars(gasCarID), FOREIGN KEY(electricCarID) REFERENCES electric_cars(electricCarID), FOREIGN KEY(userID) REFERENCES users(userID))";
 
             using var cmd = new MySqlCommand(stm, con);
             cmd.ExecuteNonQuery();
@@ -31,13 +31,13 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"INSERT INTO car_pairs(pairId, gasCarId, electricCarId, userId) VALUES(@pairId, @gasCarId, @electricCarId, @userId)";
+            string stm = @"INSERT INTO car_pairs(pairID, gasCarID, electricCarID, userID) VALUES(@pairID, @gasCarID, @electricCarID, @userID)";
 
             using var cmd = new MySqlCommand(stm, con);
-            cmd.Parameters.AddWithValue("@pairId", myPair.PairId);
-            cmd.Parameters.AddWithValue("@gasCarId", myPair.GasCarId);
-            cmd.Parameters.AddWithValue("@electricCarId", myPair.ElectricCarId);
-            cmd.Parameters.AddWithValue("@userId", myPair.UserId);
+            cmd.Parameters.AddWithValue("@pairID", myPair.PairId);
+            cmd.Parameters.AddWithValue("@gasCarID", myPair.GasCarId);
+            cmd.Parameters.AddWithValue("@electricCarID", myPair.ElectricCarId);
+            cmd.Parameters.AddWithValue("@userID", myPair.UserId);
 
             cmd.ExecuteNonQuery();
         }
@@ -49,14 +49,14 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"UPDATE car_pairs SET gasCarId = @gasCarId, electricCarId = @electricCarId, userId = @userId,  WHERE pairId = @pairId";
+            string stm = @"UPDATE car_pairs SET gasCarID = @gasCarID, electricCarID = @electricCarID, userID = @userID,  WHERE pairID = @pairID";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@pairId", myPair.PairId);
-            cmd.Parameters.AddWithValue("@gasCarId", myPair.GasCarId);
-            cmd.Parameters.AddWithValue("@electricCarId", myPair.ElectricCarId);
-            cmd.Parameters.AddWithValue("@userId", myPair.UserId);
+            cmd.Parameters.AddWithValue("@pairID", myPair.PairId);
+            cmd.Parameters.AddWithValue("@gasCarID", myPair.GasCarId);
+            cmd.Parameters.AddWithValue("@electricCarID", myPair.ElectricCarId);
+            cmd.Parameters.AddWithValue("@userID", myPair.UserId);
 
             cmd.Prepare();
 
@@ -68,10 +68,10 @@ namespace Bigproject.DataAccess
             string sql = @"USE p6nr5re8fmcvgnki;
 
                 CREATE TABLE IF NOT EXISTS car_pairs (
-                    pairId VARCHAR(255) PRIMARY KEY,
-                    gasCarId VARCHAR(255),
-                    electricCarId VARCHAR(255),
-                    userId VARCHAR(255)
+                    pairID VARCHAR(255) PRIMARY KEY,
+                    gasCarID VARCHAR(255),
+                    electricCarID VARCHAR(255),
+                    userID VARCHAR(255)
                 );
 
                 SELECT * FROM p6nr5re8fmcvgnki.car_pairs;";
@@ -91,10 +91,10 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = "SELECT * FROM car_pairs WHERE pairId = @pairId";
+            string stm = "SELECT * FROM car_pairs WHERE pairID = @pairID";
 
             using var cmd = new MySqlCommand(stm, con);
-            cmd.Parameters.AddWithValue("@pairId", id);
+            cmd.Parameters.AddWithValue("@pairID", id);
             cmd.Prepare();
 
             using var reader = cmd.ExecuteReader();
@@ -102,7 +102,7 @@ namespace Bigproject.DataAccess
             {
                 CarPair pair = new CarPair
                 {
-                    UserId = reader.GetString("pairId"),
+                    UserId = reader.GetString("pairID"),
                 };
                 return pair;
             }

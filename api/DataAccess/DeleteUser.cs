@@ -28,11 +28,11 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"DELETE FROM users WHERE userId = @userId";
+            string stm = @"DELETE FROM users WHERE userID = @userID";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@userId", id);
+            cmd.Parameters.AddWithValue("@userID", id);
 
             cmd.Prepare();
 

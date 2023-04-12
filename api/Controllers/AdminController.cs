@@ -41,13 +41,41 @@ namespace api.Controllers
         }
 
         // POST: api/Admin
+        // [HttpPost]
+        // public void Post([FromBody] Admin value)
+        // {
+        //     AdminHandler myAdminHandler = new AdminHandler();
+        //     myAdminHandler.AddAdmin(value);
+        // }
+
+        // POST: api/Admin
         [HttpPost]
-        public void Post([FromBody] Admin value)
+        public IActionResult Post([FromBody] Admin value)
         {
-            AdminHandler myAdminHandler = new AdminHandler();
-            myAdminHandler.AddAdmin(value);
+            try
+            {
+                Console.WriteLine("Received Admin: " + JsonConvert.SerializeObject(value));
+
+                if (value != null && !string.IsNullOrEmpty(value.Email) && !string.IsNullOrEmpty(value.Password) && !string.IsNullOrEmpty(value.SecurityKey))
+                {
+                    AdminHandler myAdminHandler = new AdminHandler();
+                    myAdminHandler.AddAdmin(value);
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error in Post method: " + ex.Message);
+                Console.WriteLine("Stack trace: " + ex.StackTrace);
+                return StatusCode(500);
+            }
         }
 
+        
         // PUT: api/Admin/5
         [HttpPut("{id}")]
         public void Put(string id, [FromBody] Admin value)

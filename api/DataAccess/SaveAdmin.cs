@@ -13,7 +13,7 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"CREATE TABLE admin(adminId VARCHAR(255) PRIMARY KEY, email TEXT, massword TEXT, securityKey TEXT)";
+            string stm = @"CREATE TABLE admin(adminID VARCHAR(255) PRIMARY KEY, adminEmail TEXT, adminPassword TEXT, adminSecurityKey TEXT)";
 
             using var cmd = new MySqlCommand(stm, con);
             cmd.ExecuteNonQuery();
@@ -26,14 +26,14 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"INSERT INTO admin(adminId, email, massword, securityKey) VALUES(@adminId, @email, @massword, @securityKey)";
+            string stm = @"INSERT INTO admin(adminID, adminEmail, adminPassword, adminSecurityKey) VALUES(@adminID, @adminEmail, @adminPassword, @adminSecurityKey)";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@adminId", myAdmin.AdminId);
-            cmd.Parameters.AddWithValue("@email", myAdmin.Email);
-            cmd.Parameters.AddWithValue("@massword", myAdmin.Massword);
-            cmd.Parameters.AddWithValue("@securityKey", myAdmin.SecurityKey);
+            cmd.Parameters.AddWithValue("@adminID", myAdmin.AdminId);
+            cmd.Parameters.AddWithValue("@adminEmail", myAdmin.Email);
+            cmd.Parameters.AddWithValue("@adminPassword", myAdmin.Password);
+            cmd.Parameters.AddWithValue("@adminSecurityKey", myAdmin.SecurityKey);
 
             cmd.Prepare();
 
@@ -47,14 +47,14 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"UPDATE admin SET email = @email, massword = @massword, securityKey = @securityKey WHERE adminId = @adminId";
+            string stm = @"UPDATE admin SET adminEmail = @adminEmail, adminPassword = @adminPassword, adminSecurityKey = @adminSecurityKey WHERE adminID = @adminID";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@adminId", myAdmin.AdminId);
-            cmd.Parameters.AddWithValue("@email", myAdmin.Email);
-            cmd.Parameters.AddWithValue("@massword", myAdmin.Massword);
-            cmd.Parameters.AddWithValue("@securityKey", myAdmin.SecurityKey);
+            cmd.Parameters.AddWithValue("@adminID", myAdmin.AdminId);
+            cmd.Parameters.AddWithValue("@adminEmail", myAdmin.Email);
+            cmd.Parameters.AddWithValue("@adminPassword", myAdmin.Password);
+            cmd.Parameters.AddWithValue("@adminSecurityKey", myAdmin.SecurityKey);
 
             cmd.Prepare();
 
@@ -71,10 +71,10 @@ namespace Bigproject.DataAccess
             string sql = @"USE p6nr5re8fmcvgnki;
 
                 CREATE TABLE IF NOT EXISTS admin (
-                    adminId VARCHAR(255) PRIMARY KEY,
-                    email TEXT NOT NULL,
-                    massword TEXT NOT NULL,
-                    securityKey TEXT NOT NULL
+                    adminID VARCHAR(255) PRIMARY KEY,
+                    adminEmail TEXT NOT NULL,
+                    adminPassword TEXT NOT NULL,
+                    adminSecurityKey TEXT NOT NULL
                 );
 
                 SELECT * FROM p6nr5re8fmcvgnki.admin;";
@@ -94,10 +94,10 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = "SELECT * FROM admin WHERE adminId = @adminId";
+            string stm = "SELECT * FROM admin WHERE adminID = @adminID";
 
             using var cmd = new MySqlCommand(stm, con);
-            cmd.Parameters.AddWithValue("@adminId", id);
+            cmd.Parameters.AddWithValue("@adminID", id);
             cmd.Prepare();
 
             using var reader = cmd.ExecuteReader();
@@ -105,10 +105,10 @@ namespace Bigproject.DataAccess
             {
                 Admin admin = new Admin
                 {
-                    AdminId = reader.GetString("adminId"),
-                    Email = reader.GetString("email"),
-                    Massword = reader.GetString("massword"),
-                    SecurityKey = reader.GetString("securityKey"),
+                    AdminId = reader.GetString("adminID"),
+                    Email = reader.GetString("adminEmail"),
+                    Password = reader.GetString("adminPassword"),
+                    SecurityKey = reader.GetString("adminSecurityKey"),
                 };
                 return admin;
             }

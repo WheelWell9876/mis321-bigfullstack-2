@@ -14,11 +14,11 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"SELECT * FROM gasCars WHERE gasCarId = @gasCarId";
+            string stm = @"SELECT * FROM gasCars WHERE gasCarID = @gasCarID";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@gasCarId", gasCarId);
+            cmd.Parameters.AddWithValue("@gasCarID", gasCarId);
 
             using MySqlDataReader reader = cmd.ExecuteReader();
 
@@ -28,14 +28,14 @@ namespace Bigproject.DataAccess
             {
                 myGasCar = new Gas_Car
                 {
-                    GasCarId = reader["gasCarId"].ToString(),
-                    Make = reader["make"].ToString(),
-                    Model = reader["model"].ToString(),
+                    GasCarId = reader["gasCarID"].ToString(),
+                    Make = reader["gasCarMake"].ToString(),
+                    Model = reader["gasCarModel"].ToString(),
                     Year = Convert.ToInt32(reader["gasCarYear"]),
                     Range = Convert.ToInt32(reader["gasCarRange"]),
-                    Price = Convert.ToDouble(reader["price"]),
-                    MPG = Convert.ToDouble(reader["mpg"]),
-                    AddOn = reader["addOn"].ToString()
+                    Price = Convert.ToDouble(reader["gasCarPrice"]),
+                    MPG = Convert.ToDouble(reader["gasCarMpg"]),
+                    AddOn = reader["gasCarAddOn"].ToString()
                 };
             }
 

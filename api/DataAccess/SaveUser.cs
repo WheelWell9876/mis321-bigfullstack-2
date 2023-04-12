@@ -13,7 +13,7 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"CREATE TABLE users(userId VARCHAR(255) PRIMARY KEY, email TEXT, massword TEXT)";
+            string stm = @"CREATE TABLE users(userID VARCHAR(255) PRIMARY KEY, userEmail TEXT, userPassword TEXT)";
 
             using var cmd = new MySqlCommand(stm, con);
             cmd.ExecuteNonQuery();
@@ -26,13 +26,13 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"INSERT INTO users(userId, email, massword) VALUES(@userId, @email, @massword)";
+            string stm = @"INSERT INTO users(userID, userEmail, userPassword) VALUES(@userID, @userEmail, @userPassword)";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@userId", myUser.UserId);
-            cmd.Parameters.AddWithValue("@email", myUser.Email);
-            cmd.Parameters.AddWithValue("@massword", myUser.Massword);
+            cmd.Parameters.AddWithValue("@userID", myUser.UserId);
+            cmd.Parameters.AddWithValue("@userEmail", myUser.Email);
+            cmd.Parameters.AddWithValue("@userPassword", myUser.Password);
 
             cmd.Prepare();
 
@@ -46,13 +46,13 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = @"UPDATE users SET email = @email, massword = @massword WHERE userId = @userId";
+            string stm = @"UPDATE users SET userEmail = @userEmail, userPassword = @userPassword WHERE userID = @userID";
 
             using var cmd = new MySqlCommand(stm, con);
 
-            cmd.Parameters.AddWithValue("@userId", myUser.UserId);
-            cmd.Parameters.AddWithValue("@email", myUser.Email);
-            cmd.Parameters.AddWithValue("@massword", myUser.Massword);
+            cmd.Parameters.AddWithValue("@userID", myUser.UserId);
+            cmd.Parameters.AddWithValue("@userEmail", myUser.Email);
+            cmd.Parameters.AddWithValue("@userPassword", myUser.Password);
 
             cmd.Prepare();
 
@@ -69,9 +69,9 @@ namespace Bigproject.DataAccess
             string sql = @"USE p6nr5re8fmcvgnki;
 
                 CREATE TABLE IF NOT EXISTS users (
-                    userId VARCHAR(255) PRIMARY KEY,
-                    email TEXT NOT NULL,
-                    massword TEXT NOT NULL
+                    userID VARCHAR(255) PRIMARY KEY,
+                    userEmail TEXT NOT NULL,
+                    userPassword TEXT NOT NULL
                 );
 
                 SELECT * FROM p6nr5re8fmcvgnki.users;";
@@ -91,10 +91,10 @@ namespace Bigproject.DataAccess
             using var con = new MySqlConnection(cs);
             con.Open();
 
-            string stm = "SELECT * FROM users WHERE userId = @userId";
+            string stm = "SELECT * FROM users WHERE userID = @userID";
 
             using var cmd = new MySqlCommand(stm, con);
-            cmd.Parameters.AddWithValue("@userId", id);
+            cmd.Parameters.AddWithValue("@userID", id);
             cmd.Prepare();
 
             using var reader = cmd.ExecuteReader();
@@ -102,9 +102,9 @@ namespace Bigproject.DataAccess
             {
                 User user = new User
                 {
-                    UserId = reader.GetString("userId"),
-                    Email = reader.GetString("email"),
-                    Massword = reader.GetString("massword"),
+                    UserId = reader.GetString("userID"),
+                    Email = reader.GetString("userEmail"),
+                    Password = reader.GetString("userPassword"),
                 };
                 return user;
             }

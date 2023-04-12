@@ -9,7 +9,7 @@ namespace Bigproject.Models
     {
         public string AdminId { get; set; }
         public string Email { get; set; }
-        public string Massword { get; set; }
+        public string Password { get; set; }
         public string SecurityKey { get; set; }
 
         public ISaveAdmin SaveAdmin { get; set; }
@@ -22,7 +22,7 @@ namespace Bigproject.Models
 
         public override string ToString()
         {
-            return $"{Email} {Massword} {SecurityKey}";
+            return $"{Email} {Password} {SecurityKey}";
         }
     }
 }
