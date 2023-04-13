@@ -502,35 +502,35 @@ const makeGasCarBody = (gasCars) => {
 
             // GAS CAR MAKE INPUT
             let gasCarMakeInput = document.getElementById("gas-car-make-input");
-            gasCarMakeInput.value = c.gasCarMake;
+            gasCarMakeInput.value = c.make;
 
             // GAS CAR MODEL INPUT
             let gasCarModelInput = document.getElementById("gas-car-model-input");
-            gasCarModelInput.value = c.gasCarModel;
+            gasCarModelInput.value = c.model;
 
             // GAS CAR YEAR INPUT
             let gasCarYearInput = document.getElementById("gas-car-year-input");
-            gasCarYearInput.value = c.gasCarYear;
+            gasCarYearInput.value = c.year;
 
             // GAS CAR RANGE INPUT
             let gasCarRangeInput = document.getElementById("gas-car-range-input");
-            gasCarRangeInput.value = c.gasCarRange;
+            gasCarRangeInput.value = c.range;
 
             // GAS CAR PRICE INPUT
             let gasCarPriceInput = document.getElementById("gas-car-price-input");
-            gasCarPriceInput.value = c.gasCarPrice;
+            gasCarPriceInput.value = c.price;
 
             // GAS CAR MPG INPUT
             let gasCarMPGInput = document.getElementById("gas-car-mpg-input");
-            gasCarMPGInput.value = c.gasCarMPG;
+            gasCarMPGInput.value = c.mpg;
 
             // GAS CAR ADDON INPUT
             let gasCarAddOnInput = document.getElementById("gas-car-addon-input");
-            gasCarAddOnInput.value = c.gasCarAddOn;
+            gasCarAddOnInput.value = c.addOn;
 
             // GAS CAR FORM
             let gasCarForm = document.getElementById("gas-car-form");
-            gasCarForm.onsubmit = editGasCar();
+            gasCarForm.onsubmit = editGas;
             gasCarForm.key = c.gasCarId;
         });
 
@@ -586,13 +586,13 @@ const editGas = async (event) => {
     const target = event.target;
     const gasCar = {
         GasCarId: target.key,
-        Make: target.gasCarMake.value,
-        Model: target.gasCarModel.value,
-        Year: target.gasCarYear.value,
-        Range: target.gasCarRange.value,
-        Price: target.gasCarPrice.value,
-        MPG: target.gasCarMpg.value,
-        AddOn: target.gasCarAddOn.value
+        Make: target["gas-car-make"].value,
+        Model: target["gas-car-model"].value,
+        Year: target["gas-car-year"].value,
+        Range: target["gas-car-range"].value,
+        Price: target["gas-car-price"].value,
+        MPG: target["gas-car-mpg"].value,
+        AddOn: target["gas-car-addon"].value
     }
     await fetch(`${gasCarUrl}/${target.key}`, {
         method: 'PUT',
@@ -603,13 +603,13 @@ const editGas = async (event) => {
         body: JSON.stringify(gasCar),
     });
     render();
-    target.gasCarMake.value = "";
-    target.gasCarModel.value = "";
-    target.gasCarYear.value = "";
-    target.gasCarRange.value = "";
-    target.gasCarPrice.value = "";
-    target.gasCarMpg.value = "";
-    target.gasCarAddOn.value = "";
+    target["gas-car-make"].value = "";
+    target["gas-car-model"].value = "";
+    target["gas-car-year"].value = "";
+    target["gas-car-range"].value = "";
+    target["gas-car-price"].value = "";
+    target["gas-car-mpg"].value = "";
+    target["gas-car-addon"].value = "";
 }
 
 ///// DELETE GAS CAR /////
@@ -732,7 +732,7 @@ const makeElectricCarBody = (electricCars) => {
         electricCarTd6.innerHTML = c.price;
         electricCarTR.appendChild(electricCarTd6);
 
-        // ELECTRIC CAR MPG TABLE DATA
+        // ELECTRIC CAR KWH TABLE DATA
         let electricCarTd7 = document.createElement("td");
         electricCarTd7.innerHTML = c.kwh;
         electricCarTR.appendChild(electricCarTd7);
@@ -751,35 +751,35 @@ const makeElectricCarBody = (electricCars) => {
 
             // ELECTRIC CAR MAKE INPUT
             let electricCarMakeInput = document.getElementById("electric-car-make-input");
-            electricCarMakeInput.value = c.electricCarMake;
+            electricCarMakeInput.value = c.make;
 
             // ELECTRIC CAR MODEL INPUT
             let electricCarModelInput = document.getElementById("electric-car-model-input");
-            electricCarModelInput.value = c.electricCarModel;
+            electricCarModelInput.value = c.model;
 
             // ELECTRIC CAR YEAR INPUT
             let electricCarYearInput = document.getElementById("electric-car-year-input");
-            electricCarYearInput.value = c.electricCarYear;
+            electricCarYearInput.value = c.year;
 
             // ELECTRIC CAR RANGE INPUT
             let electricCarRangeInput = document.getElementById("electric-car-range-input");
-            electricCarRangeInput.value = c.electricCarRange;
+            electricCarRangeInput.value = c.range;
 
             // ELECTRIC CAR PRICE INPUT
             let electricCarPriceInput = document.getElementById("electric-car-price-input");
-            electricCarPriceInput.value = c.electricCarPrice;
+            electricCarPriceInput.value = c.price;
 
-            // ELECTRIC CAR MPG INPUT
-            let electricCarMPGInput = document.getElementById("electric-car-kwh-input");
-            electricCarMPGInput.value = c.electricCarKWH;
+            // ELECTRIC CAR KWH INPUT
+            let electricCarKWHInput = document.getElementById("electric-car-kwh-input");
+            electricCarKWHInput.value = c.kwh;
 
             // ELECTRIC CAR ADDON INPUT
             let electricCarAddOnInput = document.getElementById("electric-car-addon-input");
-            electricCarAddOnInput.value = c.electricCarAddOn;
+            electricCarAddOnInput.value = c.addOn;
 
             // ELECTRIC CAR FORM
             let electricCarForm = document.getElementById("electric-car-form");
-            electricCarForm.onsubmit = editelectricCar();
+            electricCarForm.onsubmit = editElectric;
             electricCarForm.key = c.electricCarId;
         });
 
@@ -802,13 +802,13 @@ const createElectric = async (event) => {
     event.preventDefault();
     const target = event.target;
     const electricCar = {
-        Make: target["electric-make"].value,
-        Model: target["electric-model"].value,
-        Year: target["electric-year"].value,
-        Range: target["electric-range"].value,
-        Price: target["electric-price"].value,
-        MPG: target["electric-kwh"].value,
-        AddOn: target["electric-addon"].value
+        Make: target["electric-car-make"].value,
+        Model: target["electric-car-model"].value,
+        Year: target["electric-car-year"].value,
+        Range: target["electric-car-range"].value,
+        Price: target["electric-car-price"].value,
+        KWH: target["electric-car-kwh"].value,
+        AddOn: target["electric-car-addon"].value
     }
     await fetch(electricCarUrl, {
         method: 'POST',
@@ -819,13 +819,13 @@ const createElectric = async (event) => {
         body: JSON.stringify(electricCar),
     });
     render();
-    target["electric-make"].value = "";
-    target["electric-model"].value = "";
-    target["electric-year"].value = "";
-    target["electric-range"].value = "";
-    target["electric-price"].value = "";
-    target["electric-kwh"].value = "";
-    target["electric-addon"].value = "";
+    target["electric-car-make"].value = "";
+    target["electric-car-model"].value = "";
+    target["electric-car-year"].value = "";
+    target["electric-car-range"].value = "";
+    target["electric-car-price"].value = "";
+    target["electric-car-kwh"].value = "";
+    target["electric-car-addon"].value = "";
 }
 
 ///// EDIT ELECTRIC CAR /////
@@ -834,13 +834,13 @@ const editElectric = async (event) => {
     const target = event.target;
     const electricCar = {
         ElectricCarId: target.key,
-        Make: target.electricCarMake.value,
-        Model: target.electricCarModel.value,
-        Year: target.electricCarYear.value,
-        Range: target.electricCarRange.value,
-        Price: target.electricCarPrice.value,
-        KWH: target.electricCarKwh.value,
-        AddOn: target.electricCarAddOn.value
+        Make: target["electric-car-make"].value,
+        Model: target["electric-car-model"].value,
+        Year: target["electric-car-year"].value,
+        Range: target["electric-car-range"].value,
+        Price: target["electric-car-price"].value,
+        KWH: target["electric-car-kwh"].value,
+        AddOn: target["electric-car-addon"].value
     }
     await fetch(`${electricCarUrl}/${target.key}`, {
         method: 'PUT',
@@ -851,13 +851,13 @@ const editElectric = async (event) => {
         body: JSON.stringify(electricCar),
     });
     render();
-    target.electricCarMake.value = "";
-    target.electricCarModel.value = "";
-    target.electricCarYear.value = "";
-    target.electricCarRange.value = "";
-    target.electricCarPrice.value = "";
-    target.electricCarKwh.value = "";
-    target.electricCarAddOn.value = "";
+    target["electric-car-make"].value = "";
+    target["electric-car-model"].value = "";
+    target["electric-car-year"].value = "";
+    target["electric-car-range"].value = "";
+    target["electric-car-price"].value = "";
+    target["electric-car-kwh"].value = "";
+    target["electric-car-addon"].value = "";
 }
 
 ///// DELETE ELECTRIC CAR /////

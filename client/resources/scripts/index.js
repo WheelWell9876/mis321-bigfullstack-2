@@ -8,50 +8,6 @@ const render = () => {
     getPairs();
 }
 
-function populateCarDropdown() {
-    fetch('/api/gascar')
-        .then(response => response.json())
-        .then(gasCars => {
-            gasCars.forEach(gasCar => {
-                addCarOptionToDropdown('gas', gasCar);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching gas cars:', error);
-        });
-
-    fetch('/api/electriccar')
-        .then(response => response.json())
-        .then(electricCars => {
-            electricCars.forEach(electricCar => {
-                addCarOptionToDropdown('electric', electricCar);
-            });
-        })
-        .catch(error => {
-            console.error('Error fetching electric cars:', error);
-        });
-}
-
-function addCarOptionToDropdown(carType, car) {
-    const carDropdown = document.getElementById('car-dropdown');
-    const option = document.createElement('option');
-    option.value = carType + '-' + car.id; // Set the option value to be a combination of car type and ID
-    option.innerText = car.make + ' ' + car.model + ' ' + car.year; // Set the option text to show the car's make, model, and year
-    carDropdown.appendChild(option);
-}
-
-document.getElementById('car-dropdown').addEventListener('change', (event) => {
-    const [carType, carId] = event.target.value.split('-'); // Split the value into car type and ID
-    if (carType === 'gas') {
-        displayGasCar(carId);
-    } else if (carType === 'electric') {
-        displayElectricCar(carId);
-    }
-});
-
-populateCarDropdown();
-
-
 //// GET GAS CARS ////
 const getGasCars = function () {
     fetch(gasCarUrl).then(function (response) {
@@ -78,6 +34,31 @@ const getPairs = function () {
         makePairTable(data);
     });
 };
+
+function populateCarDropdowns() {
+    fetch('http://localhost:5104/api/gascar')
+        .then(response => response.json())
+        .then(gasCars => {
+            gasCars.forEach(gasCar => {
+                addGasCarOptionToDropdown(gasCar);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching gas cars:', error);
+        });
+
+    fetch('http://localhost:5104/api/electriccar')
+        .then(response => response.json())
+        .then(electricCars => {
+            electricCars.forEach(electricCar => {
+                addElectricCarOptionToDropdown(electricCar);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching electric cars:', error);
+        });
+}
+
 
 // DISPLAY GAS CAR
 const displayGasCar = (gasCarId) => {
@@ -121,15 +102,53 @@ const displayElectricCar = (electricCarId) => {
     xhr.send();
 };
 
+// event listener for gas car dropdown
+document.getElementById('gas-car-dropdown').addEventListener('change', (event) => {
+    const value = event.target.value;
+    if (value) {
+        const gasCarId = value.split('-')[1];
+        displayGasCar(gasCarId);
+    }
+});
+
+// event listener for electric car dropdown
+document.getElementById('electric-car-dropdown').addEventListener('change', (event) => {
+    const value = event.target.value;
+    if (value) {
+        const electricCarId = value.split('-')[1];
+        displayElectricCar(electricCarId);
+    }
+});
+
+function addGasCarOptionToDropdown(gasCar) {
+    const carDropdown = document.getElementById('gas-car-dropdown');
+    const option = document.createElement('option');
+    option.value = 'gas-' + gasCar.GasCarId; // Set the option value to be a combination of car type and ID
+    option.innerText = gasCar.Make + ' ' + gasCar.Model + ' ' + gasCar.Year; // Set the option text to show the car's make, model, and year
+    carDropdown.appendChild(option);
+}
+
+function addElectricCarOptionToDropdown(electricCar) {
+    const carDropdown = document.getElementById('electric-car-dropdown');
+    const option = document.createElement('option');
+    option.value = 'electric-' + electricCar.ElectricCarId; // Set the option value to be a combination of car type and ID
+    option.innerText = electricCar.Make + ' ' + electricCar.Model + ' ' + electricCar.Year; // Set the option text to show the car's make, model, and year
+    carDropdown.appendChild(option);
+}
+
+// Populate the dropdowns when the page loads
+populateCarDropdowns();
+
+
 // Add the event listeners to the select elements
-document.getElementById('gas-car-select').addEventListener('change', (event) => {
+document.getElementById('gas-car-dropdown').addEventListener('change', (event) => {
     const gasCarId = event.target.value;
     if (gasCarId) {
         displayGasCar(gasCarId);
     }
 });
 
-document.getElementById('electric-car-select').addEventListener('change', (event) => {
+document.getElementById('electric-car-dropdown').addEventListener('change', (event) => {
     const electricCarId = event.target.value;
     if (electricCarId) {
         displayElectricCar(electricCarId);
@@ -158,5 +177,3 @@ const deletePair = async (pairID) => {
     });
     render();
 }
-
-

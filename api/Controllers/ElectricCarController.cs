@@ -29,7 +29,7 @@ namespace api.Controllers
         {
             SaveElectricCar mySavedElectricCar = new SaveElectricCar();
             Electric_Car electricCar = mySavedElectricCar.GetElectricCarById(id);
-            Console.WriteLine("Fetched user: " + JsonConvert.SerializeObject(electricCar));
+            Console.WriteLine("Fetched electric car: " + JsonConvert.SerializeObject(electricCar));
             if(electricCar != null)
             {
                 return Ok(electricCar);
