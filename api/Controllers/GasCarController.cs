@@ -30,7 +30,7 @@ namespace api.Controllers
         {
             SaveGasCar mySavedGasCar = new SaveGasCar();
             Gas_Car gasCar = mySavedGasCar.GetGasCarById(id);
-            Console.WriteLine("Fetched user: " + JsonConvert.SerializeObject(gasCar));
+            Console.WriteLine("Fetched gas car: " + JsonConvert.SerializeObject(gasCar));
             if(gasCar != null)
             {
                 return Ok(gasCar);

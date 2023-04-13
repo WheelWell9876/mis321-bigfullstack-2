@@ -1,3 +1,5 @@
+// INDEX.JS
+
 const gasCarUrl = "http://localhost:5104/api/gascar";
 const electricCarUrl = "http://localhost:5104/api/electriccar";
 const pairUrl = "http://localhost:5104/api/pair";
@@ -35,11 +37,33 @@ const getPairs = function () {
     });
 };
 
+function sortCars(cars) {
+    return cars.sort((a, b) => {
+        if (a.make === b.make) {
+            if (a.model === b.model) {
+                return a.year - b.year;
+            } else {
+                return a.model.localeCompare(b.model);
+            }
+        } else {
+            return a.make.localeCompare(b.make);
+        }
+    });
+}
+
+
+// GET CARS INTO DROPDOWN
 function populateCarDropdowns() {
     fetch('http://localhost:5104/api/gascar')
         .then(response => response.json())
         .then(gasCars => {
-            gasCars.forEach(gasCar => {
+            const sortedGasCars = sortCars(gasCars);
+            const carDropdown = document.getElementById('gas-car-dropdown');
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.innerText = 'Select a gas car';
+            carDropdown.appendChild(defaultOption);
+            sortedGasCars.forEach(gasCar => {
                 addGasCarOptionToDropdown(gasCar);
             });
         })
@@ -50,7 +74,13 @@ function populateCarDropdowns() {
     fetch('http://localhost:5104/api/electriccar')
         .then(response => response.json())
         .then(electricCars => {
-            electricCars.forEach(electricCar => {
+            const sortedElectricCars = sortCars(electricCars);
+            const carDropdown = document.getElementById('electric-car-dropdown');
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.innerText = 'Select an electric car';
+            carDropdown.appendChild(defaultOption);
+            sortedElectricCars.forEach(electricCar => {
                 addElectricCarOptionToDropdown(electricCar);
             });
         })
@@ -61,7 +91,11 @@ function populateCarDropdowns() {
 
 
 // DISPLAY GAS CAR
+// DISPLAY GAS CAR
 const displayGasCar = (gasCarId) => {
+    if (!gasCarId) {
+        return; // Don't make the API call if gasCarId is empty
+    }
     const apiUrl = 'http://localhost:5104/api/gascar/' + gasCarId; // Replace with your actual API endpoint.
     const xhr = new XMLHttpRequest();
     xhr.open('GET', apiUrl, true);
@@ -81,8 +115,13 @@ const displayGasCar = (gasCarId) => {
     xhr.send();
 };
 
+
+
 // DISPLAY ELECTRIC CAR
 const displayElectricCar = (electricCarId) => {
+    if (!electricCarId) {
+        return; // Don't make the API call if electricCarId is empty
+    }
     const apiUrl = 'http://localhost:5104/api/electriccar/' + electricCarId; // Replace with your actual API endpoint.
     const xhr = new XMLHttpRequest();
     xhr.open('GET', apiUrl, true);
@@ -123,16 +162,16 @@ document.getElementById('electric-car-dropdown').addEventListener('change', (eve
 function addGasCarOptionToDropdown(gasCar) {
     const carDropdown = document.getElementById('gas-car-dropdown');
     const option = document.createElement('option');
-    option.value = 'gas-' + gasCar.GasCarId; // Set the option value to be a combination of car type and ID
-    option.innerText = gasCar.Make + ' ' + gasCar.Model + ' ' + gasCar.Year; // Set the option text to show the car's make, model, and year
+    option.value = gasCar.gasCarId; // Set the option value to be a combination of car type and ID
+    option.innerText = gasCar.make + ' ' + gasCar.model + ' ' + gasCar.year; // Set the option text to show the car's make, model, and year
     carDropdown.appendChild(option);
 }
 
 function addElectricCarOptionToDropdown(electricCar) {
     const carDropdown = document.getElementById('electric-car-dropdown');
     const option = document.createElement('option');
-    option.value = 'electric-' + electricCar.ElectricCarId; // Set the option value to be a combination of car type and ID
-    option.innerText = electricCar.Make + ' ' + electricCar.Model + ' ' + electricCar.Year; // Set the option text to show the car's make, model, and year
+    option.value = electricCar.electricCarId; // Set the option value to be a combination of car type and ID
+    option.innerText = electricCar.make + ' ' + electricCar.model + ' ' + electricCar.year; // Set the option text to show the car's make, model, and year
     carDropdown.appendChild(option);
 }
 
@@ -155,8 +194,10 @@ document.getElementById('electric-car-dropdown').addEventListener('change', (eve
     }
 });
 
+//// THIS CURRENTLY HAS NO FUNCTIONALITY
+//////THIS NEEDS TO WORK WITH THE CREATEPAIR.CS IN THE API, TARGET.KEY IS JUST A FILLER
 ///// CREATE CAR PAIR /////
-const createPair = async (event) => {      //////THIS NEEDS TO WORK WITH THE CREATEPAIR.CS IN THE API, TARGET.KEY IS JUST A FILLER
+const createPair = async (event) => {      
     event.preventDefault();
     const target = event.target;
     const carPair = {
@@ -166,6 +207,7 @@ const createPair = async (event) => {      //////THIS NEEDS TO WORK WITH THE CRE
     }
 }
 
+//// THIS CURRENTLY HAS NO FUNCTIONALITY EITHER
 ///// DELETE CAR PAIR /////
 const deletePair = async (pairID) => {
     await fetch(`${url}/${pairID}`, {
