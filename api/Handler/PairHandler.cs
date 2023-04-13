@@ -16,7 +16,8 @@ namespace Bigproject.Handler
 
         public List<CarPair> GetAllCarPairs()
         {
-            List<CarPair> pairs = new List<CarPair>();
+            // List<CarPair> pairs = new List<CarPair>();
+            allCarPairs.Clear();
 
             ConnectionString myConnection = new ConnectionString(); 
             string cs = myConnection.cs;
@@ -37,10 +38,10 @@ namespace Bigproject.Handler
                     GasCarId = reader.GetString("gasCarId"),
                     ElectricCarId = reader.GetString("electricCarId"),
                 };
-                pairs.Add(pair);
+                allCarPairs.Add(pair);
             }
 
-            return pairs;
+            return allCarPairs;
         }
 
         public void AddCarPair(CarPair newCarPair)
@@ -53,11 +54,10 @@ namespace Bigproject.Handler
         public void EditCarPair(string id, CarPair editCarPair)
         {
             int index = allCarPairs.FindIndex(s => s.PairId == id);
-            allCarPairs.RemoveAt(index);
 
             SaveCarPair saveCarPair = new SaveCarPair();
             saveCarPair.UpdateCarPair(editCarPair);
-            allCarPairs.Add(editCarPair);
+            allCarPairs[index] = editCarPair; // Replace the item at the same index
         }
 
         public void DeleteCarPair(string id)

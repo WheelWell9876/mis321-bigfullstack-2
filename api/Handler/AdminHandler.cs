@@ -16,7 +16,8 @@ namespace Bigproject.Handler
 
         public List<Admin> GetAllAdmins()
         {
-            List<Admin> admins = new List<Admin>();
+            // List<Admin> admins = new List<Admin>();
+            allAdmins.Clear();
 
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;
@@ -38,10 +39,10 @@ namespace Bigproject.Handler
                     Password = reader.GetString("adminPassword"),
                     SecurityKey = reader.GetString("adminSecurityKey"),
                 };
-                admins.Add(admin);
+                allAdmins.Add(admin);
             }
 
-            return admins;
+            return allAdmins;
         }
 
         public void AddAdmin(Admin newAdmin)
@@ -54,11 +55,10 @@ namespace Bigproject.Handler
         public void EditAdmin(string id, Admin editAdmin)
         {
             int index = allAdmins.FindIndex(s => s.AdminId == id);
-            allAdmins.RemoveAt(index);
 
             SaveAdmin saveAdmin = new SaveAdmin();
             saveAdmin.UpdateAdmin(editAdmin);
-            allAdmins.Add(editAdmin);
+            allAdmins[index] = editAdmin; // Replace the item at the same index
         }
 
         public void DeleteAdmin(string id)

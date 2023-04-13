@@ -123,11 +123,11 @@ const makeAdminBody = (admins) => {
             
             // ADMIN EMAIL INPUT
             let adminEmailInput = document.getElementById("admin-email-input");
-            adminEmailInput.value = c.adminEmail;
+            adminEmailInput.value = c.email;
 
             // ADMIN PASSWORD INPUT
             let adminPasswordInput = document.getElementById("admin-password-input");
-            adminPasswordInput.value = c.adminPassword;
+            adminPasswordInput.value = c.password;
 
             // ADMIN SECURITY KEY INPUT
             let securityKeyInput = document.getElementById("security-key-input");
@@ -149,6 +149,14 @@ const makeAdminBody = (admins) => {
         });
 
         adminTbody.appendChild(adminTR);
+    });
+
+    adminTbody.addEventListener("click", (event) => {
+        if (event.target.tagName !== "BUTTON") {
+            let adminForm = document.getElementById("admin-form");
+            adminForm.onsubmit = createAdmin;
+            adminForm.reset();
+        }
     });
     return adminTbody;
 };
@@ -193,9 +201,9 @@ const editAdmin = async (event) => {
     const target = event.target;
     const admin = {
         AdminID: target.key,
-        Email: target.adminEmail.value,
-        Password: target.adminPassword.value,
-        SecurityKey: target.adminSecurityKey.value
+        Email: target["admin-email"].value,
+        Password: target["admin-password"].value,
+        SecurityKey: target["security-key"].value
     }
     await fetch(`${adminUrl}/${target.key}`, {
         method: 'PUT',
@@ -206,9 +214,9 @@ const editAdmin = async (event) => {
         body: JSON.stringify(admin),
     });
     render();
-    target.adminEmail.value = "";
-    target.adminPassword.value = "";
-    target.adminSecurityKey.value = "";
+    target["admin-email"].value = "";
+    target["admin-password"].value = "";
+    target["security-key"].value = "";
 }
 
 ///// DELETE ADMIN /////
@@ -299,11 +307,11 @@ const makeUserBody = (users) => {
 
             // USER EMAIL INPUT
             let userEmailInput = document.getElementById("user-email-input");
-            userEmailInput.value = c.userEmail;
+            userEmailInput.value = c.email;
 
             // USER PASSWORD INPUT
             let userPasswordInput = document.getElementById("user-password-input");
-            userPasswordInput.value = c.userPassword;
+            userPasswordInput.value = c.password;
 
             // USER FORM
             let userForm = document.getElementById("user-form");
@@ -353,8 +361,8 @@ const editUser = async (event) => {
     const target = event.target;
     const user = {
         UserId: target.key,
-        Email: target.userEmail.value,
-        Password: target.userPassword.value
+        Email: target["user-email"].value,
+        Password: target["user-password"].value
     }
     await fetch(`${userUrl}/${target.key}`, {
         method: 'PUT',
@@ -365,8 +373,8 @@ const editUser = async (event) => {
         body: JSON.stringify(user),
     });
     render();
-    target.userEmail.value = "";
-    target.userPassword.value = "";
+    target["user-email"].value = "";
+    target["user-password"].value = "";
 }
 
 ///// DELETE USER /////

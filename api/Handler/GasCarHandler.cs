@@ -16,7 +16,8 @@ namespace Bigproject.DataAccess
 
         public List<Gas_Car> GetAllGasCars()
         {
-            List<Gas_Car> allGasCars = new List<Gas_Car>();
+            // List<Gas_Car> allGasCars = new List<Gas_Car>();
+            allGasCars.Clear();
 
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;
@@ -57,12 +58,29 @@ namespace Bigproject.DataAccess
 
         public void EditGasCar(string id, Gas_Car editGasCar)
         {
+            System.Console.WriteLine("ID parameter: " + id);
             int index = allGasCars.FindIndex(s => s.GasCarId == id);
-            allGasCars.RemoveAt(index);
+            System.Console.WriteLine("PAST INDEX");
 
-            SaveGasCar saveGasCar = new SaveGasCar();
-            saveGasCar.UpdateGasCar(editGasCar);
-            allGasCars.Add(editGasCar);
+            System.Console.WriteLine("Index: " + index);
+            System.Console.WriteLine("All gas cars:");
+            foreach (Gas_Car gasCar in allGasCars)
+            {
+                System.Console.WriteLine($"ID: {gasCar.GasCarId}, Make: {gasCar.Make}, Model: {gasCar.Model}");
+            }
+
+            if (index >= 0 && index < allGasCars.Count)
+            {
+                allGasCars.RemoveAt(index);
+
+                SaveGasCar saveGasCar = new SaveGasCar();
+                saveGasCar.UpdateGasCar(editGasCar);
+                allGasCars.Add(editGasCar);
+            }
+            else
+            {
+                System.Console.WriteLine("System error in IF statement");
+            }
         }
 
         public void DeleteGasCar(string id)

@@ -16,7 +16,7 @@ namespace Bigproject.Handler
 
         public List<Electric_Car> GetAllElectricCars()
         {
-            List<Electric_Car> electricCars = new List<Electric_Car>();
+            allElectricCars.Clear();
 
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;
@@ -42,10 +42,10 @@ namespace Bigproject.Handler
                     KWH = reader.GetDouble("electricCarKwh"),
                     AddOn = reader.GetString("electricCarAddOn"),
                 };
-                electricCars.Add(electricCar);
+                allElectricCars.Add(electricCar);
             }
 
-            return electricCars;
+            return allElectricCars;
         }
 
         public void AddElectricCar(Electric_Car newElectricCar)
@@ -58,11 +58,10 @@ namespace Bigproject.Handler
         public void EditElectricCar(string id, Electric_Car editElectricCar)
         {
             int index = allElectricCars.FindIndex(s => s.ElectricCarId == id);
-            allElectricCars.RemoveAt(index);
 
             SaveElectricCar saveElectricCar = new SaveElectricCar();
             saveElectricCar.UpdateElectricCar(editElectricCar);
-            allElectricCars.Add(editElectricCar);
+            allElectricCars[index] = editElectricCar; // Replace the item at the same index
         }
 
         public void DeleteElectricCar(string id)

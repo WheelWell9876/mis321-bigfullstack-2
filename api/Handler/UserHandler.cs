@@ -16,7 +16,8 @@ namespace Bigproject.Handler
 
         public List<User> GetAllUsers()
         {
-            List<User> users = new List<User>();
+            // List<User> users = new List<User>();
+            allUsers.Clear();
 
             ConnectionString myConnection = new ConnectionString();
             string cs = myConnection.cs;
@@ -36,10 +37,10 @@ namespace Bigproject.Handler
                     Email = reader.GetString("userEmail"),
                     Password = reader.GetString("userPassword"),
                 };
-                users.Add(user);
+                allUsers.Add(user);
             }
 
-            return users;
+            return allUsers;
         }
 
         public void AddUser(User newUser)
@@ -52,11 +53,10 @@ namespace Bigproject.Handler
         public void EditUser(string id, User editUser)
         {
             int index = allUsers.FindIndex(s => s.UserId == id);
-            allUsers.RemoveAt(index);
 
             SaveUser saveUser = new SaveUser();
             saveUser.UpdateUser(editUser);
-            allUsers.Add(editUser);
+            allUsers[index] = editUser; // Replace the item at the same index
         }
 
         public void DeleteUser(string id)
