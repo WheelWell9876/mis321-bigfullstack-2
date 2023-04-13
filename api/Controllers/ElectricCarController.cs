@@ -40,14 +40,6 @@ namespace api.Controllers
             }
         }
 
-        // // POST: api/ElectricCar
-        // [HttpPost]
-        // public void Post([FromBody] Electric_Car value)
-        // {
-        //     ElectricCarHandler myElectricCarHandler = new ElectricCarHandler();
-        //     myElectricCarHandler.AddElectricCar(value);
-        // }
-
         [HttpPost]
         public IActionResult Post([FromBody] Electric_Car value)
         {

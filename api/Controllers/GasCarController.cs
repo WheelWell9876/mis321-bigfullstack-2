@@ -41,14 +41,6 @@ namespace api.Controllers
             }
         }
 
-        // // POST: api/GasCar
-        // [HttpPost]
-        // public void Post([FromBody] Gas_Car value)
-        // {
-        //     GasCarHandler myGasCarHandler = new GasCarHandler();
-        //     myGasCarHandler.AddGasCar(value);
-        // }
-
         [HttpPost]
         public IActionResult Post([FromBody] Gas_Car value)
         {
