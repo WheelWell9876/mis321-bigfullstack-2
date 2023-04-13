@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
+using Bigproject.DataAccess;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,5 +38,9 @@ app.UseAuthorization();
 app.UseCors("OpenPolicy");
 
 app.MapControllers();
+
+// Initialize the database
+SaveAdmin saveAdmin = new SaveAdmin();
+saveAdmin.InitializeDatabase();
 
 app.Run();

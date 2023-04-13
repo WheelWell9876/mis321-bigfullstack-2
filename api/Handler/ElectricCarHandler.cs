@@ -1,5 +1,7 @@
 using Bigproject.Models;
 using Bigproject.DataAccess;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace Bigproject.Handler
 {
@@ -14,7 +16,36 @@ namespace Bigproject.Handler
 
         public List<Electric_Car> GetAllElectricCars()
         {
-            return allElectricCars;
+            List<Electric_Car> electricCars = new List<Electric_Car>();
+
+            ConnectionString myConnection = new ConnectionString();
+            string cs = myConnection.cs;
+
+            using var con = new MySqlConnection(cs);
+            con.Open();
+
+            string stm = "SELECT * FROM electricCars";
+
+            using var cmd = new MySqlCommand(stm, con);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Electric_Car electricCar = new Electric_Car
+                {
+                    ElectricCarId = reader.GetString("electricCarID"),
+                    Make = reader.GetString("electricCarMake"),
+                    Model = reader.GetString("electricCarModel"),
+                    Year = reader.GetInt32("electricCarYear"),
+                    Range = reader.GetInt32("electricCarRange"),
+                    Price = reader.GetDouble("electricCarPrice"),
+                    KWH = reader.GetDouble("electricCarKwh"),
+                    AddOn = reader.GetString("electricCarAddOn"),
+                };
+                electricCars.Add(electricCar);
+            }
+
+            return electricCars;
         }
 
         public void AddElectricCar(Electric_Car newElectricCar)

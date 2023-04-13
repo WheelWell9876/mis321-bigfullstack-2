@@ -28,7 +28,14 @@ function displayContent(event, tabName) {
     // Show the current tab content and add the "active" class to the clicked tab button
     document.getElementById(tabName).style.display = "block";
     event.currentTarget.className += " active";
+
+    // Fetch and populate the tables with data
+    render();
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    render();
+});
 
 /////////////////////////////////////////////   ADMINS    /////////////////////////////////////////////
 /////////////////////////////////////////////   ADMINS    /////////////////////////////////////////////
@@ -40,7 +47,7 @@ const getAdmins = function () {
     fetch(adminUrl).then(function (response) {
         return response.json();
     }).then(function(data){
-        makeAdminTable(data);
+        makeAdminTable(data); // <-- Replaced 'populateAdminTable' with 'makeAdminTable'
     });
 };
 

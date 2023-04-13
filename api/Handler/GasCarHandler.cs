@@ -1,7 +1,9 @@
 using Bigproject.Models;
 using Bigproject.DataAccess;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
-namespace Bigproject.Handler
+namespace Bigproject.DataAccess
 {
     public class GasCarHandler
     {
@@ -9,11 +11,40 @@ namespace Bigproject.Handler
 
         public GasCarHandler()
         {
-
+            
         }
 
         public List<Gas_Car> GetAllGasCars()
         {
+            List<Gas_Car> allGasCars = new List<Gas_Car>();
+
+            ConnectionString myConnection = new ConnectionString();
+            string cs = myConnection.cs;
+            using var con = new MySqlConnection(cs);
+            con.Open();
+
+            string stm = "SELECT * FROM gasCars";
+
+            using var cmd = new MySqlCommand(stm, con);
+            using var reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                Gas_Car gasCar = new Gas_Car
+                {
+                    GasCarId = reader.GetString("gasCarID"),
+                    Make = reader.GetString("gasCarMake"),
+                    Model = reader.GetString("gasCarModel"),
+                    Year = reader.GetInt32("gasCarYear"),
+                    Range = reader.GetInt32("gasCarRange"),
+                    Price = reader.GetDouble("gasCarPrice"),
+                    MPG = reader.GetDouble("gasCarMpg"),
+                    AddOn = reader.GetString("gasCarAddOn"),
+                };
+
+                allGasCars.Add(gasCar);
+            }
+
             return allGasCars;
         }
 

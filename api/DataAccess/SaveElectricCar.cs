@@ -80,7 +80,6 @@ namespace Bigproject.DataAccess
         {
             string sql = 
                 @"USE p6nr5re8fmcvgnki;
-                DROP TABLE IF EXISTS electricCars;
                 CREATE TABLE IF NOT EXISTS electricCars (
                     electricCarID VARCHAR(255) PRIMARY KEY,
                     electricCarMake TEXT NOT NULL,

@@ -1,5 +1,7 @@
 using Bigproject.Models;
 using Bigproject.DataAccess;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
 
 namespace Bigproject.Handler
 {
@@ -14,7 +16,30 @@ namespace Bigproject.Handler
 
         public List<User> GetAllUsers()
         {
-            return allUsers;
+            List<User> users = new List<User>();
+
+            ConnectionString myConnection = new ConnectionString();
+            string cs = myConnection.cs;
+            using var con = new MySqlConnection(cs);
+            con.Open();
+
+            string stm = "SELECT * FROM users";
+
+            using var cmd = new MySqlCommand(stm, con);
+
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                User user = new User
+                {
+                    UserId = reader.GetString("userID"),
+                    Email = reader.GetString("userEmail"),
+                    Password = reader.GetString("userPassword"),
+                };
+                users.Add(user);
+            }
+
+            return users;
         }
 
         public void AddUser(User newUser)
